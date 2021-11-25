@@ -12,7 +12,7 @@ pipeline {
 
         stage ('build') {
             steps {
-                sh "npm build"
+                sh "ng build"
             }
         }
     }
