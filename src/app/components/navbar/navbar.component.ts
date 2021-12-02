@@ -28,11 +28,14 @@ export class NavbarComponent implements OnInit {
     this.authService.logout();
     this.goToHomePage();
   }
-  goToUsersPage(){
-    this.router.navigate(['users']);
+  goToVotingSearchPage(){
+    this.router.navigate(['voting-search']);
   }
   goToRegisterPage(){
     this.router.navigate(['register']);
+  }
+  goToCreateVotingPage(){
+    this.router.navigate(['create-voting']);
   }
   isLoggedIn(): boolean{
       return this.localStorageService.isLoggedIn();

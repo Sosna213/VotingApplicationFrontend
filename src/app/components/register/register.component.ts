@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
-import {HttpClient} from "@angular/common/http";
-import {UserService} from "../../services/User/user.service";
+import {UserService} from "../../services/user/user.service";
 import {Router} from "@angular/router";
 
 export type UserRegisterModel = {

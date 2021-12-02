@@ -1,0 +1,8 @@
+<span>Voting info</span>
+<br>
+<span>{{votingInfo.votingId}}</span>
+<br>
+<span>{{votingInfo.question}}</span>
+<span *ngFor="let ansver of votingInfo.answers"><br>{{ansver}}</span>
+<button class="button-margin" mat-flat-button color="primary" (click)="gotToVotingEditPage()">Edytuj</button>
+<button mat-flat-button color="warn" (click)="deleteVoting(votingInfo.votingId)">Usuń</button>

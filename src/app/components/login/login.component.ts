@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
         .subscribe( res=>{
         this.localStorage.setItem('token', res.accessToken);
         this.localStorage.setItem('refreshToken', res.refreshToken);
-        this.router.navigate(['/users']);
+        this.router.navigate(['']);
       },
           error => {
           console.error(error);

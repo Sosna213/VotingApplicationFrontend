@@ -25,8 +25,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import {TokenInterceptorService} from "./services/token-interceptor/token-interceptor.service";
-import { TestComponent } from './components/test/test/test.component';
-
+import {VotingCreateComponent} from "./components/votings/voting-create/voting-create.component";
+import { VotingsSearchPanelComponent } from './components/votings/votings-search-panel/votings-search-panel.component';
+import {MatTableModule} from "@angular/material/table";
+import { VotingInfoComponent } from './components/votings/voting-info/voting-info.component';
+import { VotingEditComponent } from './components/votings/voting-edit/voting-edit.component';
+import { VotingFormComponent } from './components/votings/voting-form/voting-form.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 @NgModule({
   declarations: [
@@ -35,7 +41,11 @@ import { TestComponent } from './components/test/test/test.component';
     LoginComponent,
     HomeComponent,
     RegisterComponent,
-    TestComponent
+    VotingCreateComponent,
+    VotingsSearchPanelComponent,
+    VotingInfoComponent,
+    VotingEditComponent,
+    VotingFormComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +66,10 @@ import { TestComponent } from './components/test/test/test.component';
     MatSliderModule,
     MatInputModule,
     MatRadioModule,
-    MatCardModule
+    MatTableModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDatepickerModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }

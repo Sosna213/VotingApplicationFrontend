@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {VotingService} from "../../services/voting/voting.service";
+import {TokenDecoderService} from "../../services/token-decoder/token-decoder.service";
 
 @Component({
   selector: 'app-home',
@@ -10,6 +12,7 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }

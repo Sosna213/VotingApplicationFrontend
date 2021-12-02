@@ -3,7 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import {HomeComponent} from "./components/home/home.component";
 import {LoginComponent} from "./components/login/login.component";
 import {RegisterComponent} from "./components/register/register.component";
-import {TestComponent} from "./components/test/test/test.component";
+import {VotingsSearchPanelComponent} from "./components/votings/votings-search-panel/votings-search-panel.component";
+import {VotingInfoComponent} from "./components/votings/voting-info/voting-info.component";
+import {VotingCreateComponent} from "./components/votings/voting-create/voting-create.component";
+import {VotingEditComponent} from "./components/votings/voting-edit/voting-edit.component";
+
 
 const routes: Routes = [
   {
@@ -19,8 +23,20 @@ const routes: Routes = [
     component: RegisterComponent,
   },
   {
-    path: 'users',
-    component: TestComponent,
+    path: 'voting-search',
+    component: VotingsSearchPanelComponent,
+  },
+  {
+    path: 'voting/:votingId',
+    component: VotingInfoComponent,
+  },
+  {
+    path: 'create-voting',
+    component: VotingCreateComponent,
+  },
+  {
+    path: 'edit-voting/:votingId',
+    component: VotingEditComponent,
   }
 ];
 

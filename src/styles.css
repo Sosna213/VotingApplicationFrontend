@@ -12,6 +12,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .text-align-right{
   text-align: right;
 }
+.text-align-center{
+  text-align: center;
+}
 .pr-3{
   padding-right: 1rem !important;
 }
