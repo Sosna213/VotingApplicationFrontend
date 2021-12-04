@@ -1,8 +1,29 @@
-<span>Voting info</span>
-<br>
-<span>{{votingInfo.votingId}}</span>
-<br>
-<span>{{votingInfo.question}}</span>
-<span *ngFor="let ansver of votingInfo.answers"><br>{{ansver}}</span>
-<button class="button-margin" mat-flat-button color="primary" (click)="gotToVotingEditPage()">Edytuj</button>
-<button mat-flat-button color="warn" (click)="deleteVoting(votingInfo.votingId)">Usuń</button>
+<div class="col-8 offset-2">
+  <mat-list>
+    <mat-list-item>
+      <div class="row full-width">
+        <div class="col-4"><strong class="pr-3">Nazwa: </strong>{{votingInfo.votingName}}</div>
+        <div class="col-4"><strong class="pr-3">Tylko dla zalogowanych: </strong>
+          <mat-checkbox [ngModel]="votingInfo.restricted" [disabled]="true"></mat-checkbox>
+        </div>
+        <div class="col-4">
+          <strong *ngIf="votingInfo.endDate" class="pr-3">Data zakończenia: </strong>{{votingInfo.endDate}}
+        </div>
+      </div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item><strong class="pr-3">Pytanie: </strong>{{votingInfo.question}}</mat-list-item>
+    <mat-list-item><strong>Odpowiedzi: </strong></mat-list-item>
+    <div *ngFor="let ansver of votingInfo.answers let i=index">
+      <mat-divider></mat-divider>
+      <mat-list-item><span class="pr-3">{{i + 1}}.</span>{{ansver.answer}}</mat-list-item>
+    </div>
+  </mat-list>
+  <div class="text-align-right">
+    <button class="button-margin" mat-mini-fab color="primary" (click)="openShareVotingDialog()">
+      <mat-icon>share</mat-icon>
+    </button>
+    <button class="button-margin" mat-flat-button color="primary" (click)="gotToVotingEditPage()">Edytuj</button>
+    <button mat-flat-button color="warn" (click)="deleteVoting(votingInfo.votingId)">Usuń</button>
+  </div>
+</div>

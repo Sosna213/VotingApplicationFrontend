@@ -7,19 +7,34 @@ import {Observable, Subject} from "rxjs";
 export interface Voting {
   votingId: number;
   votingName: string;
+  restricted: boolean;
+  endDate: Date;
   question: string;
+}
+export type Answer ={
+  answerId: number;
+  answer: string;
 }
 export interface VotingInfo {
   votingId: number;
   votingName: string;
+  restricted: boolean;
+  endDate: string;
   question: string;
-  answers: string[];
+  answers: Answer[];
 }
+
 export type VotingAdd = {
   userId: number;
   votingName: string;
+  restricted: boolean;
+  endDate: Date;
   question: string;
   answers: string[];
+}
+export type VotingShared = {
+  votingDTO: Voting;
+  voted: boolean;
 }
 
 @Injectable({
@@ -75,5 +90,27 @@ export class VotingService {
       .set('Content-Type', 'application/json');
     const body = JSON.stringify(votingToEdit);
     return this.http.put("/voting-edit", body,{headers});
+  }
+  public shareVotingToUser(username: string, votingId: number){
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+    const body = {
+      username: username,
+      votingId: votingId
+    };
+    return this.http.post("/shareToUser", JSON.stringify(body), {headers});
+  }
+
+  public getSharedToMeVoting(){
+    const username = this.decoder.getUsernameFromToken();
+    let votingList = new Subject<VotingShared[]>();
+    this.http.get<VotingShared[]>(`/votingSharedToUser/${username}`)
+      .subscribe(returned =>{
+        votingList.next(returned);
+        return votingList;
+      },error => {
+        console.log(error);
+      });
+    return votingList;
   }
 }

@@ -12,9 +12,10 @@
         <mat-checkbox style="width: 20%" class="pb-3" name="limitedInTime" formControlName="limitedInTime">Ograniczone czasowo:</mat-checkbox>
 
         <mat-form-field style="width: 60%" *ngIf="votingForm.controls['limitedInTime'].value"  appearance="fill">
-          <mat-label>Wybierz datę zakończenia</mat-label>
-          <input matInput type="datetime-local" formControlName="endTime" [matDatepicker]="picker">
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-label>Data zakończenia:</mat-label>
+          <input matInput [ngxMatDatetimePicker]="picker" placeholder="Wybierz datę zakończenia" formControlName="endTime">
+          <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
         </mat-form-field>
 
       </div>
@@ -58,8 +59,8 @@
       </div>
       <hr>
       <div class="text-align-right">
-        <button *ngIf="trybe === 'add'" mat-raised-button color="primary" type="submit">Dodaj</button>
-        <button *ngIf="trybe === 'edit'" mat-raised-button color="primary" type="submit">Edytuj</button>
+        <button *ngIf="tribe === 'add'" mat-raised-button color="primary" type="submit">Dodaj</button>
+        <button *ngIf="tribe === 'edit'" mat-raised-button color="primary" type="submit">Edytuj</button>
       </div>
     </mat-card>
   </form>

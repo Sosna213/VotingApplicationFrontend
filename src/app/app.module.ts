@@ -33,6 +33,12 @@ import { VotingEditComponent } from './components/votings/voting-edit/voting-edi
 import { VotingFormComponent } from './components/votings/voting-form/voting-form.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatListModule} from "@angular/material/list";
+import {NgxMatDatetimePickerModule, NgxMatTimepickerModule} from "@angular-material-components/datetime-picker";
+import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
+import { ShareToUserDialogComponent } from './components/votings/voting-info/share-to-user-dialog/share-to-user-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { SharedToMeVotingSearchComponent } from './components/votings/shared-to-me-voting-search/shared-to-me-voting-search.component';
 
 @NgModule({
   declarations: [
@@ -45,32 +51,39 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     VotingsSearchPanelComponent,
     VotingInfoComponent,
     VotingEditComponent,
-    VotingFormComponent
+    VotingFormComponent,
+    ShareToUserDialogComponent,
+    SharedToMeVotingSearchComponent
   ],
-  imports: [
-    BrowserModule,
-    RouterModule,
-    AppRoutingModule,
-    GaugeModule.forRoot(),
-    HttpClientModule,
-    FormsModule,
-    MatNativeDateModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    MatTabsModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSliderModule,
-    MatInputModule,
-    MatRadioModule,
-    MatTableModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatDatepickerModule
-  ],
+    imports: [
+        BrowserModule,
+        RouterModule,
+        AppRoutingModule,
+        GaugeModule.forRoot(),
+        HttpClientModule,
+        FormsModule,
+        MatNativeDateModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        MatTabsModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSliderModule,
+        MatInputModule,
+        MatRadioModule,
+        MatTableModule,
+        MatCardModule,
+        MatCheckboxModule,
+        MatDatepickerModule,
+        MatListModule,
+        NgxMatDatetimePickerModule,
+        NgxMatTimepickerModule,
+        NgxMatMomentModule,
+        MatDialogModule
+    ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }
   ],

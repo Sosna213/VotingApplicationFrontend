@@ -40,5 +40,8 @@ export class NavbarComponent implements OnInit {
   isLoggedIn(): boolean{
       return this.localStorageService.isLoggedIn();
   }
+  goToVotingSharedToMe(){
+    this.router.navigate(['voting-shared-to-me']);
+  }
 
 }

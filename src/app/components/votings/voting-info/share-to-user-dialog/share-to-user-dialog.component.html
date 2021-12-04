@@ -1,0 +1,11 @@
+<div mat-dialog-content>
+  <p>Udostępnij użytkownikowi:</p>
+  <mat-form-field appearance="fill">
+    <mat-label>Nazwa użytkownika</mat-label>
+    <input matInput [(ngModel)]="username">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Anuluj</button>
+  <button mat-button [mat-dialog-close]="username" cdkFocusInitial>Dodaj</button>
+</div>
