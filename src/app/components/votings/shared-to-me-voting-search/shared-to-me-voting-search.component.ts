@@ -21,8 +21,8 @@ export class SharedToMeVotingSearchComponent implements OnInit {
       console.log(data);
     });
   }
-  public redirectToVotingPage(votingId: number){
-    // this.router.navigate(['voting', votingId])
+  public redirectToVote(votingId: number){
+    this.router.navigate(['vote', votingId])
   }
 
 }

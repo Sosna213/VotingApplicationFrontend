@@ -8,6 +8,7 @@ import {VotingInfoComponent} from "./components/votings/voting-info/voting-info.
 import {VotingCreateComponent} from "./components/votings/voting-create/voting-create.component";
 import {VotingEditComponent} from "./components/votings/voting-edit/voting-edit.component";
 import {SharedToMeVotingSearchComponent} from "./components/votings/shared-to-me-voting-search/shared-to-me-voting-search.component";
+import {VoteComponent} from "./components/votings/vote/vote.component";
 
 
 const routes: Routes = [
@@ -42,6 +43,10 @@ const routes: Routes = [
   {
     path: 'voting-shared-to-me',
     component: SharedToMeVotingSearchComponent,
+  },
+  {
+    path: 'vote/:votingId',
+    component: VoteComponent,
   }
 ];
 

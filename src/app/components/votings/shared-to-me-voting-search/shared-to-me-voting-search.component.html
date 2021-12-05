@@ -38,9 +38,7 @@
 
   </table>
 
-  <ul>
-    <li *ngFor="let clickedRow of clickedRows">
-      {{redirectToVotingPage(clickedRow.votingDTO.votingId)}}
-    </li>
-  </ul>
+    <div *ngFor="let clickedRow of clickedRows">
+      <div *ngIf="!clickedRow.voted">{{redirectToVote(clickedRow.votingDTO.votingId)}}</div>
+    </div>
 </div>

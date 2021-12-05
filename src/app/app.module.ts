@@ -39,6 +39,7 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
 import { ShareToUserDialogComponent } from './components/votings/voting-info/share-to-user-dialog/share-to-user-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { SharedToMeVotingSearchComponent } from './components/votings/shared-to-me-voting-search/shared-to-me-voting-search.component';
+import { VoteComponent } from './components/votings/vote/vote.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { SharedToMeVotingSearchComponent } from './components/votings/shared-to-
     VotingEditComponent,
     VotingFormComponent,
     ShareToUserDialogComponent,
-    SharedToMeVotingSearchComponent
+    SharedToMeVotingSearchComponent,
+    VoteComponent
   ],
     imports: [
         BrowserModule,

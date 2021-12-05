@@ -11,6 +11,11 @@ export interface Voting {
   endDate: Date;
   question: string;
 }
+export type Vote ={
+  votingId: number;
+  answerId: number;
+  username: string;
+}
 export type Answer ={
   answerId: number;
   answer: string;
@@ -112,5 +117,11 @@ export class VotingService {
         console.log(error);
       });
     return votingList;
+  }
+  public vote(vote: Vote){
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+    const body = JSON.stringify(vote);
+    return this.http.post("/vote", body,{headers});
   }
 }
