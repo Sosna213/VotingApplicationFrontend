@@ -29,6 +29,7 @@ export class VotingFormComponent implements OnInit {
     question: [null, Validators.required],
     limitedInTime: false,
     restricted: false,
+    explicit: false,
     endTime: new FormControl(null),
     answers: this.formBuilder.array([])
   });
@@ -53,6 +54,7 @@ export class VotingFormComponent implements OnInit {
         this.votingForm.controls['endDate']?.setValue(date);
         this.votingForm.controls['limitedInTime'].setValue(true);
         this.votingForm.controls['votingName'].setValue(data.votingName);
+        this.votingForm.controls['explicit'].setValue(data.explicit);
         this.votingForm.controls['question'].setValue(data.question);
         data.answers.forEach(answer => {
           this.answers().push(this.newAnswerWithData(answer.answer));
@@ -102,6 +104,7 @@ export class VotingFormComponent implements OnInit {
           userId: this.userId,
           votingName: this.votingForm.controls['votingName'].value,
           restricted: this.votingForm.controls['restricted'].value,
+          explicit: this.votingForm.controls['explicit'].value,
           endDate: this.votingForm.get('endTime')?.value?.toDate(),
           question: this.votingForm.controls['question'].value,
           answers: answers,
@@ -113,7 +116,9 @@ export class VotingFormComponent implements OnInit {
           votingId: this.votingData.votingId,
           votingName: this.votingForm.controls['votingName'].value,
           restricted: this.votingForm.controls['restricted'].value,
+          explicit: this.votingForm.controls['explicit'].value,
           endDate: this.votingForm.get('endTime')?.value?.toDate(),
+          active: true,
           question: this.votingForm.controls['question'].value,
           answers: answers,
         }

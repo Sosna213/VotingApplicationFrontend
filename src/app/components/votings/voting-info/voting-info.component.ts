@@ -54,4 +54,11 @@ export class VotingInfoComponent implements OnInit {
     this.votingService.deleteVotingById(votingId);
     this.router.navigate(['voting-search']);
   }
+  deactivate(){
+    this.votingService.deactivateVoting(this.votingInfo.votingId).subscribe(result=>{
+      console.log(result)
+    }, error => {
+      console.log(error)
+    });
+  }
 }

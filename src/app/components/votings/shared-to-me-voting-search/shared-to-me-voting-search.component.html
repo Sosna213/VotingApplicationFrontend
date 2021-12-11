@@ -28,6 +28,16 @@
       <td mat-cell *matCellDef="let element"><mat-checkbox [ngModel]="element.voted" [disabled]="true"></mat-checkbox></td>
     </ng-container>
 
+    <ng-container matColumnDef="active">
+      <th mat-header-cell *matHeaderCellDef>Aktywne</th>
+      <td mat-cell *matCellDef="let element"><mat-checkbox [ngModel]="element.votingDTO.active" [disabled]="true"></mat-checkbox></td>
+    </ng-container>
+
+    <ng-container matColumnDef="explicit">
+      <th mat-header-cell *matHeaderCellDef>Jawne</th>
+      <td mat-cell *matCellDef="let element"><mat-checkbox [ngModel]="element.votingDTO.explicit" [disabled]="true"></mat-checkbox></td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr
       mat-row
@@ -39,6 +49,6 @@
   </table>
 
     <div *ngFor="let clickedRow of clickedRows">
-      <div *ngIf="!clickedRow.voted">{{redirectToVote(clickedRow.votingDTO.votingId)}}</div>
+      <div *ngIf="!clickedRow.voted && clickedRow.votingDTO.active">{{redirectToVote(clickedRow.votingDTO.votingId)}}</div>
     </div>
 </div>

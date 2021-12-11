@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
 })
 export class SharedToMeVotingSearchComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'votingName', 'question', 'endDate', 'voted'];
+  displayedColumns: string[] = ['id', 'votingName', 'question', 'endDate', 'voted', 'active', 'explicit'];
   clickedRows = new Set<VotingShared>();
   public votingList!: VotingShared[];
 

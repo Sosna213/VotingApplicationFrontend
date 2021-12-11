@@ -20,7 +20,7 @@
         <mat-list-item><span class="pr-3">{{i + 1}}.</span>{{answer.answer}}</mat-list-item>
       </div>
       <div class="col-1 text-align-center">
-      <mat-radio-group c [(ngModel)]="answerVotedId">
+      <mat-radio-group [(ngModel)]="answerVotedId">
         <mat-radio-button class="mt-3" value="{{answer.answerId}}"></mat-radio-button>
       </mat-radio-group>
       </div>

@@ -15,22 +15,22 @@
     </div>
   </ng-container>
   <ng-container *ngIf="isLoggedIn()">
-    <div class="col-1 offset-7">
+    <div class="offset-7">
       <button mat-raised-button class="navbar-button" color="primary" (click)="goToCreateVotingPage()">
         Dodaj głosowanie
       </button>
     </div>
-    <div class="col-1">
+    <div>
       <button mat-raised-button class="navbar-button" color="primary" (click)="goToVotingSharedToMe()">
         Zagłosuj
       </button>
     </div>
-    <div class="col-1">
+    <div >
       <button mat-raised-button class="navbar-button" color="primary" (click)="goToVotingSearchPage()">
         Moje głosowania
       </button>
     </div>
-    <div class="col-1 text-align-right">
+    <div>
       <button mat-stroked-button class="navbar-button" color="primary"
               (click)="logout()">Wyloguj
       </button>

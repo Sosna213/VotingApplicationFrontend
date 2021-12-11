@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
 })
 export class VotingsSearchPanelComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'votingName', 'question', 'restricted', 'endDate'];
+  displayedColumns: string[] = ['id', 'votingName', 'question', 'restricted','endDate','explicit', 'active'];
   clickedRows = new Set<Voting>();
   public votingList!: Voting[];
 

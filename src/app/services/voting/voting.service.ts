@@ -8,6 +8,8 @@ export interface Voting {
   votingId: number;
   votingName: string;
   restricted: boolean;
+  active: boolean;
+  explicit: boolean;
   endDate: Date;
   question: string;
 }
@@ -24,6 +26,8 @@ export interface VotingInfo {
   votingId: number;
   votingName: string;
   restricted: boolean;
+  active: boolean;
+  explicit: boolean;
   endDate: string;
   question: string;
   answers: Answer[];
@@ -33,6 +37,7 @@ export type VotingAdd = {
   userId: number;
   votingName: string;
   restricted: boolean;
+  explicit: boolean;
   endDate: Date;
   question: string;
   answers: string[];
@@ -123,5 +128,8 @@ export class VotingService {
       .set('Content-Type', 'application/json');
     const body = JSON.stringify(vote);
     return this.http.post("/vote", body,{headers});
+  }
+  public deactivateVoting(votingId: number){
+    return this.http.put(`/deactivate-voting/${votingId}`,{});
   }
 }
