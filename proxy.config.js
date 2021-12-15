@@ -1,7 +1,9 @@
 
 module.exports = [
   {
-    context:["/register", "/login", "/users", "/token-refresh", "/voting/forUser", "/voting/add", "/voting", "/userId", "/deactivate-voting", "/voting/delete","/shareToUser", "/vote", "/votingSharedToUser", "/voting-edit"],
+    context:["/register", "/login", "/users", "/token-refresh", "/voting/forUser", "/voting/add",
+      "/voting", "/usernames", "/userId", "/deactivate-voting", "/voting/delete", "/shareToUsers",
+      "/vote", "/votingSharedToUser", "/voting-edit","/users-group/add", "/user-group"],
     target: "http://localhost:8080",
     secure: false,
     logLevel: "debug"

@@ -1,19 +1,19 @@
-import {Component, ElementRef, Inject, ViewChild} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {FormControl} from "@angular/forms";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {map, Observable, startWith} from "rxjs";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {MatChipInputEvent} from "@angular/material/chips";
 import {UserService} from "../../../../services/user/user.service";
-
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MatChipInputEvent} from "@angular/material/chips";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {UserGroupAdd} from "../../../../services/user-group/user-group.service";
 
 @Component({
-  selector: 'app-share-to-user-dialog',
-  templateUrl: './share-to-user-dialog.component.html',
-  styleUrls: ['./share-to-user-dialog.component.css']
+  selector: 'app-user-group-add-dialog',
+  templateUrl: './user-group-add-dialog.component.html',
+  styleUrls: ['./user-group-add-dialog.component.css']
 })
-export class ShareToUserDialogComponent {
+export class UserGroupAddDialogComponent {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   userCtrl = new FormControl();
@@ -21,10 +21,15 @@ export class ShareToUserDialogComponent {
   users: string[] = [];
   allUsers: string[] = [];
 
+  userGroupForm = this.formBuilder.group({
+    userGroupName: [null, Validators.required]
+  });
+
   constructor(
     public userService: UserService,
-    public dialogRef: MatDialogRef<ShareToUserDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public usernames: string[],
+    public formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<UserGroupAddDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public userGroupAdd: UserGroupAdd,
   ) {
     this.filteredUsers = this.userCtrl.valueChanges.pipe(
       startWith(null),
@@ -53,8 +58,8 @@ export class ShareToUserDialogComponent {
     this.userCtrl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.users.indexOf(fruit);
+  remove(user: string): void {
+    const index = this.users.indexOf(user);
 
     if (index >= 0) {
       this.users.splice(index, 1);
@@ -70,10 +75,11 @@ export class ShareToUserDialogComponent {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allUsers.filter(fruit => fruit.toLowerCase().includes(filterValue));
+    return this.allUsers.filter(user => user.toLowerCase().includes(filterValue));
   }
   onSubmit(){
-    this.usernames = this.users;
-    this.dialogRef.close(this.usernames);
+    this.userGroupAdd.usernames = this.users;
+    this.userGroupAdd.userGroupName = this.userGroupForm.controls['userGroupName'].value;
+    this.dialogRef.close(this.userGroupAdd);
   }
 }

@@ -43,5 +43,8 @@ export class NavbarComponent implements OnInit {
   goToVotingSharedToMe(){
     this.router.navigate(['voting-shared-to-me']);
   }
+  goToUserGroupSearch(){
+    this.router.navigate(['user-group-search']);
+  }
 
 }

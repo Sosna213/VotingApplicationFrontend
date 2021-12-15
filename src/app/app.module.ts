@@ -40,6 +40,11 @@ import { ShareToUserDialogComponent } from './components/votings/voting-info/sha
 import {MatDialogModule} from "@angular/material/dialog";
 import { SharedToMeVotingSearchComponent } from './components/votings/shared-to-me-voting-search/shared-to-me-voting-search.component';
 import { VoteComponent } from './components/votings/vote/vote.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatChipsModule} from "@angular/material/chips";
+import { UserGroupEditComponent } from './components/user-group/user-group-edit/user-group-edit.component';
+import {UserGroupSearchComponent} from "./components/user-group/user-group-search/user-group-search.component";
+import { UserGroupAddDialogComponent } from './components/user-group/user-group-search/user-group-add-dialog/user-group-add-dialog.component';
 
 @NgModule({
   declarations: [
@@ -55,37 +60,42 @@ import { VoteComponent } from './components/votings/vote/vote.component';
     VotingFormComponent,
     ShareToUserDialogComponent,
     SharedToMeVotingSearchComponent,
-    VoteComponent
+    VoteComponent,
+    UserGroupEditComponent,
+    UserGroupSearchComponent,
+    UserGroupAddDialogComponent
   ],
-    imports: [
-        BrowserModule,
-        RouterModule,
-        AppRoutingModule,
-        GaugeModule.forRoot(),
-        HttpClientModule,
-        FormsModule,
-        MatNativeDateModule,
-        BrowserAnimationsModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-        MatTabsModule,
-        MatIconModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatSliderModule,
-        MatInputModule,
-        MatRadioModule,
-        MatTableModule,
-        MatCardModule,
-        MatCheckboxModule,
-        MatDatepickerModule,
-        MatListModule,
-        NgxMatDatetimePickerModule,
-        NgxMatTimepickerModule,
-        NgxMatMomentModule,
-        MatDialogModule
-    ],
+  imports: [
+    BrowserModule,
+    RouterModule,
+    AppRoutingModule,
+    GaugeModule.forRoot(),
+    HttpClientModule,
+    FormsModule,
+    MatNativeDateModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatTabsModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSliderModule,
+    MatInputModule,
+    MatRadioModule,
+    MatTableModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatListModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatMomentModule,
+    MatDialogModule,
+    MatAutocompleteModule,
+    MatChipsModule
+  ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }
   ],

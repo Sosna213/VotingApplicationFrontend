@@ -13,7 +13,7 @@ import {ShareToUserDialogComponent} from "./share-to-user-dialog/share-to-user-d
 export class VotingInfoComponent implements OnInit {
 
   votingInfo!: VotingInfo;
-  usernameToAdd: string = '';
+  usernamesToAdd: string[] = [];
 
   constructor(private votingService: VotingService,public dialog: MatDialog, private activatedRoute: ActivatedRoute, private router: Router) { }
 
@@ -29,22 +29,22 @@ export class VotingInfoComponent implements OnInit {
 
   openShareVotingDialog(): void {
     const dialogRef = this.dialog.open(ShareToUserDialogComponent, {
-      width: '250px',
-      data: {username: this.usernameToAdd}
+      width: '700px',
+      data: {usernames: this.usernamesToAdd}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.usernameToAdd = result;
-      this.votingService.shareVotingToUser(this.usernameToAdd, this.votingInfo.votingId)
-        .subscribe(result=>{
-          console.log(result);
-        }, error=>{
-          console.log(error);
-      })
-      console.log(this.usernameToAdd);
+      this.usernamesToAdd = result;
+      if(this.usernamesToAdd != null){
+        this.votingService.shareVotingToUser(this.usernamesToAdd, this.votingInfo.votingId)
+          .subscribe(result=>{
+            console.log(result);
+          }, error=>{
+            console.log(error);
+          })
+      }
     });
   }
-
 
   gotToVotingEditPage(){
     this.router.navigate(['edit-voting', this.votingInfo.votingId]);

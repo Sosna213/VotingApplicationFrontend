@@ -32,4 +32,7 @@ export class UserService {
       });
     return userId;
   }
+  public getUsernames(): Observable<string[]>{
+    return this.http.get<string[]>('/usernames');
+  }
 }

@@ -9,6 +9,7 @@ import {VotingCreateComponent} from "./components/votings/voting-create/voting-c
 import {VotingEditComponent} from "./components/votings/voting-edit/voting-edit.component";
 import {SharedToMeVotingSearchComponent} from "./components/votings/shared-to-me-voting-search/shared-to-me-voting-search.component";
 import {VoteComponent} from "./components/votings/vote/vote.component";
+import {UserGroupSearchComponent} from "./components/user-group/user-group-search/user-group-search.component";
 
 
 const routes: Routes = [
@@ -47,6 +48,10 @@ const routes: Routes = [
   {
     path: 'vote/:votingId',
     component: VoteComponent,
+  },
+  {
+    path: 'user-group-search',
+    component: UserGroupSearchComponent,
   }
 ];
 

@@ -101,14 +101,14 @@ export class VotingService {
     const body = JSON.stringify(votingToEdit);
     return this.http.put("/voting-edit", body,{headers});
   }
-  public shareVotingToUser(username: string, votingId: number){
+  public shareVotingToUser(usernames: string[], votingId: number){
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
     const body = {
-      username: username,
+      usernames: usernames,
       votingId: votingId
     };
-    return this.http.post("/shareToUser", JSON.stringify(body), {headers});
+    return this.http.post("/shareToUsers", JSON.stringify(body), {headers});
   }
 
   public getSharedToMeVoting(){
