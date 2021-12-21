@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {VotingInfo, VotingService} from "../../../services/voting/voting.service";
+import {VotingInfo, VotingResult, VotingService} from "../../../services/voting/voting.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ShareToUserDialogComponent} from "./share-to-user-dialog/share-to-user-dialog.component";
@@ -13,7 +13,11 @@ import {ShareToUserDialogComponent} from "./share-to-user-dialog/share-to-user-d
 export class VotingInfoComponent implements OnInit {
 
   votingInfo!: VotingInfo;
+  legendPosition: string = 'below';
   usernamesToAdd: string[] = [];
+  votingResult: VotingResult[] = [];
+  resultVisible: boolean = false;
+  totalOfAnswers: number = 0;
 
   constructor(private votingService: VotingService,public dialog: MatDialog, private activatedRoute: ActivatedRoute, private router: Router) { }
 
@@ -24,7 +28,24 @@ export class VotingInfoComponent implements OnInit {
       this.votingService.getVotingWithAnswers(votingId).subscribe(data=>{
         this.votingInfo = data;
       });
+      this.votingService.getVotingResultForVoting(votingId).subscribe(result=>{
+        this.votingResult = result;
+        this.votingResult.forEach(result=>{
+          this.totalOfAnswers+= result.value;
+        })
+      });
     }
+  }
+  showResult(){
+    this.resultVisible = !this.resultVisible;
+  }
+  getNumberOfResultForAnswer(answerId: number): VotingResult{
+    let votingResultForAnswer = {} as VotingResult;
+    this.votingResult.forEach(result=>{
+      if(result.answerId === answerId)
+        votingResultForAnswer =  result;
+    })
+    return votingResultForAnswer;
   }
 
   openShareVotingDialog(): void {

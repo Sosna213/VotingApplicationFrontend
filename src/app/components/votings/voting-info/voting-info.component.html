@@ -16,18 +16,38 @@
     </mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item><strong class="pr-3">Pytanie: </strong>{{votingInfo.question}}</mat-list-item>
-    <mat-list-item><strong>Odpowiedzi: </strong></mat-list-item>
+    <mat-list-item>
+      <span class="col-1"></span>
+      <span class="pr-3 col-2"><strong>Odpowiedzi: </strong></span>
+      <span *ngIf="resultVisible" class="pr-3 col-2"><strong>Liczba odpowiedzi:</strong></span>
+      <span *ngIf="resultVisible" class="pr-3 col-2"><strong>Udział procentowy:</strong></span>
+      <span class="pr-3 col-5" *ngIf="votingInfo.explicit && resultVisible"><strong>Użytkownicy który zagłosowali:</strong></span>
+    </mat-list-item>
     <div *ngFor="let answer of votingInfo.answers let i=index">
       <mat-divider></mat-divider>
-      <mat-list-item><span class="pr-3">{{i + 1}}.</span>{{answer.answer}}</mat-list-item>
+      <mat-list-item>
+        <span class="col-1">{{i + 1}}.</span>
+        <span class="pr-3 col-2">{{answer.answer}}</span>
+        <span *ngIf="resultVisible" class="pr-3 col-2">{{getNumberOfResultForAnswer(answer.answerId).value}}</span>
+        <span *ngIf="resultVisible" class="pr-3 col-2">{{getNumberOfResultForAnswer(answer.answerId).value / totalOfAnswers * 100 | number: '1.0-2'}}%</span>
+        <span class="pr-3 col-5" *ngIf="votingInfo.explicit && resultVisible">{{getNumberOfResultForAnswer(answer.answerId).usernames}}</span>
+      </mat-list-item>
     </div>
   </mat-list>
   <div class="text-align-right">
     <button class="button-margin" mat-mini-fab color="primary" (click)="openShareVotingDialog()">
       <mat-icon>share</mat-icon>
     </button>
-    <button [disabled]="votingInfo.active" class="button-margin" mat-flat-button color="primary" (click)="gotToVotingEditPage()">Edytuj</button>
-    <button *ngIf="votingInfo.active" class="button-margin" mat-flat-button color="primary" (click)="deactivate()">Deaktywuj</button>
+    <button [disabled]="votingInfo.active" class="button-margin" mat-flat-button color="primary"
+            (click)="gotToVotingEditPage()">Edytuj
+    </button>
+    <button *ngIf="votingInfo.active" class="button-margin" mat-flat-button color="primary" (click)="deactivate()">
+      Deaktywuj
+    </button>
     <button mat-flat-button color="warn" (click)="deleteVoting(votingInfo.votingId)">Usuń</button>
   </div>
+  <button mat-flat-button color="primary" (click)="showResult()">Pokaż wyniki</button>
+  <br>
+  <ngx-charts-pie-chart class="col-1" *ngIf="resultVisible" [results]="votingResult" [legend]="true" [gradient]="true">
+  </ngx-charts-pie-chart>
 </div>

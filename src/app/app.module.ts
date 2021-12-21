@@ -45,6 +45,8 @@ import {MatChipsModule} from "@angular/material/chips";
 import { UserGroupEditComponent } from './components/user-group/user-group-edit/user-group-edit.component';
 import {UserGroupSearchComponent} from "./components/user-group/user-group-search/user-group-search.component";
 import { UserGroupAddDialogComponent } from './components/user-group/user-group-search/user-group-add-dialog/user-group-add-dialog.component';
+import {NgxEchartsModule} from "ngx-echarts";
+import {PieChartModule} from "@swimlane/ngx-charts";
 
 @NgModule({
   declarations: [
@@ -64,6 +66,7 @@ import { UserGroupAddDialogComponent } from './components/user-group/user-group-
     UserGroupEditComponent,
     UserGroupSearchComponent,
     UserGroupAddDialogComponent
+
   ],
   imports: [
     BrowserModule,
@@ -94,7 +97,11 @@ import { UserGroupAddDialogComponent } from './components/user-group/user-group-
     NgxMatMomentModule,
     MatDialogModule,
     MatAutocompleteModule,
-    MatChipsModule
+    MatChipsModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    }),
+    PieChartModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }

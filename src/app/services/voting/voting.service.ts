@@ -46,6 +46,12 @@ export type VotingShared = {
   votingDTO: Voting;
   voted: boolean;
 }
+export type VotingResult = {
+  answerId: number
+  name: string;
+  value: number;
+  usernames: string[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -131,5 +137,8 @@ export class VotingService {
   }
   public deactivateVoting(votingId: number){
     return this.http.put(`/deactivate-voting/${votingId}`,{});
+  }
+  public getVotingResultForVoting(votingId: number): Observable<VotingResult[]>{
+    return this.http.get<VotingResult[]>(`/voting-result/${votingId}`);
   }
 }
