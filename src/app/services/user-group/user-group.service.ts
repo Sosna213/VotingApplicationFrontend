@@ -8,6 +8,10 @@ export type UserGroupAdd = {
   userGroupName: string;
   usernames: string[];
 }
+export type UserGroupEdit = {
+  userGroupAddDTO: UserGroupAdd,
+  userGroupId: number;
+}
 
 export type UserGroupInfo = {
   userGroupId: number;
@@ -29,8 +33,19 @@ export class UserGroupService {
     const body = JSON.stringify(userGroupToAdd);
     return this.http.post("/users-group/add", body,{headers});
   }
+  public editUserGroup(userGroupEdit: UserGroupEdit){
+    userGroupEdit.userGroupAddDTO.ownerUsername  = this.decoder.getUsernameFromToken();
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+    const body = JSON.stringify(userGroupEdit);
+    return this.http.put("/users-group/edit", body,{headers});
+  }
+
   public getUserGroupsForUser(): Observable<UserGroupInfo[]>{
     let username = this.decoder.getUsernameFromToken();
     return this.http.get<UserGroupInfo[]>(`/user-group/${username}`);
+  }
+  public deleteUserGroupById(userGroupId: number){
+    return this.http.delete(`/user-group/delete/${userGroupId}`);
   }
 }

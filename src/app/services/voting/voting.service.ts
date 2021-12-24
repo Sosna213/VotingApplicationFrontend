@@ -65,15 +65,7 @@ export class VotingService {
 
   public getVotingListForUser(): Observable<Voting[]>{
     const username = this.decoder.getUsernameFromToken();
-    let votingList = new Subject<Voting[]>();
-    this.http.get<Voting[]>(`/voting/forUser/${username}`)
-      .subscribe(returned =>{
-        votingList.next(returned);
-        return votingList;
-    },error => {
-        console.log(error);
-      });
-    return votingList;
+    return this.http.get<Voting[]>(`/voting/forUser/${username}`);
   }
 
   public getVotingWithAnswers(votingId: number): Observable<VotingInfo>{

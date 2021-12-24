@@ -18,9 +18,11 @@ export class VotingEditComponent implements OnInit {
   }
   submitHandler(votingToEdit: VotingInfo){
     this.votingService.editVoting(votingToEdit).subscribe(data=>{
-      console.log(data);
+      this.router.navigate(['/voting-search']);
+    }, error => {
+      console.log(error)
     });
-    this.router.navigate(['/voting-search']);
+
   }
 
 

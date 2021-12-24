@@ -19,8 +19,11 @@ export class VotingCreateComponent implements OnInit {
 
   submitHandler(votingToAdd: VotingAdd){
     this.votingService.saveVoting(votingToAdd).subscribe(data => {
-      console.log(data);
+
+      this.router.navigate(['/voting-search']);
+    }, error => {
+      console.log(error);
     });
-    this.router.navigate(['/voting-search']);
+
   }
 }

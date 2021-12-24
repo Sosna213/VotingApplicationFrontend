@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {map, Observable, startWith} from "rxjs";
@@ -21,6 +21,7 @@ export class UserGroupAddDialogComponent {
   users: string[] = [];
   allUsers: string[] = [];
 
+
   userGroupForm = this.formBuilder.group({
     userGroupName: [null, Validators.required]
   });
@@ -29,8 +30,13 @@ export class UserGroupAddDialogComponent {
     public userService: UserService,
     public formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<UserGroupAddDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public userGroupAdd: UserGroupAdd,
+    @Inject(MAT_DIALOG_DATA) public userGroup: {userGroupInfo: UserGroupAdd,userGroupName: string, usernames: string[], mode: string},
   ) {
+    this.userGroup.userGroupInfo = <UserGroupAdd>{};
+    if(this.userGroup.mode === "edit"){
+      this.users = this.userGroup.usernames;
+      this.userGroupForm.controls['userGroupName'].setValue(this.userGroup.userGroupName);
+    }
     this.filteredUsers = this.userCtrl.valueChanges.pipe(
       startWith(null),
       map((user: string | null) => (user ? this._filter(user) : this.allUsers.slice())),
@@ -78,8 +84,8 @@ export class UserGroupAddDialogComponent {
     return this.allUsers.filter(user => user.toLowerCase().includes(filterValue));
   }
   onSubmit(){
-    this.userGroupAdd.usernames = this.users;
-    this.userGroupAdd.userGroupName = this.userGroupForm.controls['userGroupName'].value;
-    this.dialogRef.close(this.userGroupAdd);
+    this.userGroup.userGroupInfo.usernames = this.users;
+    this.userGroup.userGroupInfo.userGroupName = this.userGroupForm.controls['userGroupName'].value;
+    this.dialogRef.close(this.userGroup.userGroupInfo);
   }
 }

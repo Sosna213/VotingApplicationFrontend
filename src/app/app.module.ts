@@ -47,6 +47,7 @@ import {UserGroupSearchComponent} from "./components/user-group/user-group-searc
 import { UserGroupAddDialogComponent } from './components/user-group/user-group-search/user-group-add-dialog/user-group-add-dialog.component';
 import {NgxEchartsModule} from "ngx-echarts";
 import {PieChartModule} from "@swimlane/ngx-charts";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -68,41 +69,42 @@ import {PieChartModule} from "@swimlane/ngx-charts";
     UserGroupAddDialogComponent
 
   ],
-  imports: [
-    BrowserModule,
-    RouterModule,
-    AppRoutingModule,
-    GaugeModule.forRoot(),
-    HttpClientModule,
-    FormsModule,
-    MatNativeDateModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    MatTabsModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSliderModule,
-    MatInputModule,
-    MatRadioModule,
-    MatTableModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatListModule,
-    NgxMatDatetimePickerModule,
-    NgxMatTimepickerModule,
-    NgxMatMomentModule,
-    MatDialogModule,
-    MatAutocompleteModule,
-    MatChipsModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
-    }),
-    PieChartModule
-  ],
+    imports: [
+        BrowserModule,
+        RouterModule,
+        AppRoutingModule,
+        GaugeModule.forRoot(),
+        HttpClientModule,
+        FormsModule,
+        MatNativeDateModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        MatTabsModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSliderModule,
+        MatInputModule,
+        MatRadioModule,
+        MatTableModule,
+        MatCardModule,
+        MatCheckboxModule,
+        MatDatepickerModule,
+        MatListModule,
+        NgxMatDatetimePickerModule,
+        NgxMatTimepickerModule,
+        NgxMatMomentModule,
+        MatDialogModule,
+        MatAutocompleteModule,
+        MatChipsModule,
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts')
+        }),
+        PieChartModule,
+        MatExpansionModule
+    ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }
   ],

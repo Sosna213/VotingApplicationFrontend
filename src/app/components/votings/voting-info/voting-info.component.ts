@@ -77,7 +77,7 @@ export class VotingInfoComponent implements OnInit {
   }
   deactivate(){
     this.votingService.deactivateVoting(this.votingInfo.votingId).subscribe(result=>{
-      console.log(result)
+      location.reload();
     }, error => {
       console.log(error)
     });

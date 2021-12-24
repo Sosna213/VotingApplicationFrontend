@@ -18,6 +18,8 @@ export class VotingsSearchPanelComponent implements OnInit {
   ngOnInit(): void {
     this.votingService.getVotingListForUser().subscribe(data=>{
       this.votingList = data;
+    }, error => {
+      console.log(error);
     });
   }
   public redirectToVotingPage(votingId: number){

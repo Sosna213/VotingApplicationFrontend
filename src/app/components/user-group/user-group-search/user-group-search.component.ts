@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {UserGroupAddDialogComponent} from "./user-group-add-dialog/user-group-add-dialog.component";
-import {UserGroupAdd, UserGroupInfo, UserGroupService} from "../../../services/user-group/user-group.service";
+import {
+  UserGroupAdd,
+  UserGroupEdit,
+  UserGroupInfo,
+  UserGroupService
+} from "../../../services/user-group/user-group.service";
+import {Voting, VotingShared} from "../../../services/voting/voting.service";
 
 
 @Component({
@@ -12,9 +18,9 @@ import {UserGroupAdd, UserGroupInfo, UserGroupService} from "../../../services/u
 export class UserGroupSearchComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'userGroupName', 'operations'];
-  public userGroupInfos!: UserGroupInfo[];
+  userGroupInfos!: UserGroupInfo[];
   userGroupToAdd!: UserGroupAdd;
-  // result
+
 
   constructor(private userGroupService: UserGroupService, public dialog: MatDialog) { }
 
@@ -22,23 +28,66 @@ export class UserGroupSearchComponent implements OnInit {
     this.userGroupService.getUserGroupsForUser().subscribe(data => {
       this.userGroupInfos = data;
       console.log(this.userGroupInfos);
+    }, error => {
+      console.log(error);
     });
   }
 
-  openShareVotingDialog(): void {
+  openCreateUserGroupDialog(): void {
     const dialogRef = this.dialog.open(UserGroupAddDialogComponent, {
       width: '700px',
-      data: {usernames: this.userGroupToAdd}
+      data: {
+        usernames: this.userGroupToAdd,
+        mode: "create"
+      }
     });
+
 
     dialogRef.afterClosed().subscribe(result => {
       this.userGroupToAdd = result;
       console.log(this.userGroupToAdd);
       this.userGroupService.addUserGroup(this.userGroupToAdd).subscribe(result=>{
-        console.log(result);
+        location.reload();
       }, error => {
         console.log(error);
       })
     });
+  }
+
+  openEditUserGroupDialog(userGroupId: number): void {
+    let usernames;
+    let userGroupName;
+    this.userGroupInfos.filter(userGroup => userGroup.userGroupId === userGroupId).forEach(userGroup => {
+      usernames = userGroup.usernames;
+      userGroupName = userGroup.userGroupName;
+    })
+    const dialogRef = this.dialog.open(UserGroupAddDialogComponent, {
+      width: '700px',
+      data: {
+        userGroupName: userGroupName,
+        usernames: usernames,
+        mode: "edit"
+      }
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      let userGroupEdit: UserGroupEdit = <UserGroupEdit>{};
+      userGroupEdit.userGroupAddDTO = result;
+      userGroupEdit.userGroupId = userGroupId;
+      this.userGroupService.editUserGroup(userGroupEdit).subscribe(result=>{
+        location.reload();
+      }, error => {
+        console.log(error);
+      })
+    });
+  }
+  deleteUserGroup(userGroupId: number) {
+    this.userGroupService.deleteUserGroupById(userGroupId).subscribe(response => {
+      console.log(response);
+      location.reload();
+    }, error => {
+      console.log(error);
+    })
   }
 }
