@@ -4,8 +4,8 @@
   <table mat-table [dataSource]="votingList" class="mat-elevation-z8 demo-table">
 
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>ID</th>
-      <td mat-cell *matCellDef="let element">{{element.votingId}}</td>
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let element  let i=index">{{i+1}}</td>
     </ng-container>
 
     <ng-container matColumnDef="votingName">

@@ -28,10 +28,8 @@ export class TokenInterceptorService implements HttpInterceptor {
           if (refreshToken && accessToken) {
             return this.refreshToken(req, next);
           }
-
           return this.logoutAndRedirect(err);
         }
-
         if (err instanceof HttpErrorResponse && err.status === 403) {
           return this.logoutAndRedirect(err);
         }

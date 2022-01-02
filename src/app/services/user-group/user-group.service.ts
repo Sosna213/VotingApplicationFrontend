@@ -45,6 +45,14 @@ export class UserGroupService {
     let username = this.decoder.getUsernameFromToken();
     return this.http.get<UserGroupInfo[]>(`/user-group/${username}`);
   }
+
+  public mapUserGroupsToNames(userGroups: UserGroupInfo[]): string[]{
+    let userGroupNames: string[] =[];
+    userGroups.forEach(userGroup =>{
+      userGroupNames.push(userGroup.userGroupName);
+    })
+      return userGroupNames;
+  }
   public deleteUserGroupById(userGroupId: number){
     return this.http.delete(`/user-group/delete/${userGroupId}`);
   }

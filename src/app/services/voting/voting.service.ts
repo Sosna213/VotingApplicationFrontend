@@ -87,11 +87,7 @@ export class VotingService {
     return this.http.post("/voting/add", body,{headers});
   }
   public deleteVotingById(votingId: number){
-    this.http.delete(`/voting/delete/${votingId}`).subscribe(res=>{
-      console.log(res);
-    }, error => {
-      console.log(error);
-    });
+    return this.http.delete(`/voting/delete/${votingId}`);
   }
   public editVoting(votingToEdit: VotingInfo){
     const headers = new HttpHeaders()

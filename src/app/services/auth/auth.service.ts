@@ -33,7 +33,6 @@ export class AuthService {
    })
      .pipe(
        catchError((err => {
-         console.log('Error in authService')
          console.error(err);
          return throwError(err);
        }))

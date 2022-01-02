@@ -3,6 +3,7 @@ import {VotingInfo, VotingResult, VotingService} from "../../../services/voting/
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ShareToUserDialogComponent} from "./share-to-user-dialog/share-to-user-dialog.component";
+import {DeleteVotingModalComponent} from "./delete-voting-modal/delete-voting-modal.component";
 
 
 @Component({
@@ -72,8 +73,23 @@ export class VotingInfoComponent implements OnInit {
   }
 
   deleteVoting(votingId: number){
-    this.votingService.deleteVotingById(votingId);
-    this.router.navigate(['voting-search']);
+
+    const dialogRef = this.dialog.open(DeleteVotingModalComponent, {
+      width: '700px',
+      data: {votingId: votingId}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if(result != null){
+        this.votingService.deleteVotingById(result.votingId).subscribe(result=>{
+            console.log(result);
+            this.router.navigate(['voting-search']);
+          }, error=>{
+            console.log(error);
+          })
+      }
+    });
   }
   deactivate(){
     this.votingService.deactivateVoting(this.votingInfo.votingId).subscribe(result=>{

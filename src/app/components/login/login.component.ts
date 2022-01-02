@@ -31,6 +31,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // openSnackBar() {
+  //   this._snackBar.openFromComponent(ErrorSnackbarComponent, {
+  //     duration: 1000,
+  //   });
+  // }
+
   onSubmit(): void {
     if (this.loginForm.valid) {
       const userLoginData: UserLoginModel = {
@@ -47,7 +53,7 @@ export class LoginComponent implements OnInit {
           console.error(error);
           });
     } else {
-      alert('Dane nieprawidłowe');
+      // this.openSnackBar();
     }
   }
   private setToken(key: string, token: string): void {

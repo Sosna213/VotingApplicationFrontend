@@ -48,6 +48,7 @@ import { UserGroupAddDialogComponent } from './components/user-group/user-group-
 import {NgxEchartsModule} from "ngx-echarts";
 import {PieChartModule} from "@swimlane/ngx-charts";
 import {MatExpansionModule} from "@angular/material/expansion";
+import { DeleteVotingModalComponent } from './components/votings/voting-info/delete-voting-modal/delete-voting-modal.component';
 
 @NgModule({
   declarations: [
@@ -66,8 +67,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
     VoteComponent,
     UserGroupEditComponent,
     UserGroupSearchComponent,
-    UserGroupAddDialogComponent
-
+    UserGroupAddDialogComponent,
+    DeleteVotingModalComponent
   ],
     imports: [
         BrowserModule,
