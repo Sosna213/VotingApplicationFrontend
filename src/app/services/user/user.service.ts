@@ -13,10 +13,8 @@ export class UserService {
 
   public registerUser(url: String, data: UserRegisterModel): Observable<Object>{
     let response: any;
-    this.http.post('/register', data).subscribe(response1 =>{
-      response = response1;
-    });
-    return response;
+    return this.http.post('/register', data);
+
   }
   public getActiveUserId(): Observable<number>{
 

@@ -39,6 +39,21 @@
           <mat-error *ngIf="registerForm.controls['password'].hasError('required')">
             Hasło jest <strong>wymagane</strong>
           </mat-error>
+          <mat-error *ngIf="registerForm.controls['password'].hasError('hasSpecialCharacters')">
+            Hasło <strong>musi</strong> zawierać znaki specjalne
+          </mat-error>
+          <mat-error *ngIf="registerForm.controls['password'].hasError('minlength')">
+            Hasło <strong>musi</strong> zawierać co najmniej 8 znaków
+          </mat-error>
+          <mat-error *ngIf="registerForm.controls['password'].hasError('hasNumber')">
+            Hasło <strong>musi</strong> zawierać co najmniej jeden numer
+          </mat-error>
+          <mat-error *ngIf="registerForm.controls['password'].hasError('hasCapitalCase')">
+            Hasło <strong>musi</strong> zawierać co najmniej jedną dużą literę
+          </mat-error>
+          <mat-error *ngIf="registerForm.controls['password'].hasError('hasSmallCase')">
+            Hasło <strong>musi</strong> zawierać co najmniej jedną małą literę
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="col-6 ">
@@ -50,6 +65,9 @@
           </button>
           <mat-error *ngIf="registerForm.controls['repeatPassword'].hasError('required')">
             Powtórzenia hasła jest <strong>wymagane</strong>
+          </mat-error>
+          <mat-error *ngIf="registerForm.controls['repeatPassword'].hasError('passwordNotEqual')">
+            Hasła <strong>nie są</strong> takie same
           </mat-error>
         </mat-form-field>
       </div>

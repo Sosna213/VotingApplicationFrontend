@@ -8,6 +8,7 @@ import {
   UserGroupService
 } from "../../../services/user-group/user-group.service";
 import {Voting, VotingShared} from "../../../services/voting/voting.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -22,7 +23,7 @@ export class UserGroupSearchComponent implements OnInit {
   userGroupToAdd!: UserGroupAdd;
 
 
-  constructor(private userGroupService: UserGroupService, public dialog: MatDialog) { }
+  constructor(private userGroupService: UserGroupService, public dialog: MatDialog, public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.userGroupService.getUserGroupsForUser().subscribe(data => {
@@ -78,7 +79,7 @@ export class UserGroupSearchComponent implements OnInit {
       this.userGroupService.editUserGroup(userGroupEdit).subscribe(result=>{
         location.reload();
       }, error => {
-        console.log(error);
+        this.errorSnackBarOpen(error.error.error)
       })
     });
   }
@@ -87,7 +88,13 @@ export class UserGroupSearchComponent implements OnInit {
       console.log(response);
       location.reload();
     }, error => {
-      console.log(error);
+      this.errorSnackBarOpen(error.error.error)
     })
+  }
+  private errorSnackBarOpen(message: string) {
+    this.snackBar.open(message, "Zamknij", {
+      duration: 3 * 1000,
+      horizontalPosition: "right"
+    });
   }
 }

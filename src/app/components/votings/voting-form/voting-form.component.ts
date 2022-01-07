@@ -6,6 +6,7 @@ import {TokenDecoderService} from "../../../services/token-decoder/token-decoder
 import {UserService} from "../../../services/user/user.service";
 import {ThemePalette} from "@angular/material/core";
 import * as moment from 'moment';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-voting-form',
@@ -38,7 +39,8 @@ export class VotingFormComponent implements OnInit {
               private tokenDecode: TokenDecoderService,
               private userService: UserService,
               private activatedRoute: ActivatedRoute,
-              private votingService: VotingService) {
+              private votingService: VotingService,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -125,7 +127,13 @@ export class VotingFormComponent implements OnInit {
         this.votingToEdit.emit(votingToEdit);
       }
     } else {
-      alert("Dane są nie prawidłowe");
+      this.errorSnackBarOpen("Dane są nie prawidłowe");
     }
+  }
+  private errorSnackBarOpen(message: string) {
+    this.snackBar.open(message, "Zamknij", {
+      duration: 3 * 1000,
+      horizontalPosition: "right"
+    });
   }
 }

@@ -13,15 +13,17 @@ export interface Voting {
   endDate: Date;
   question: string;
 }
-export type Vote ={
+
+export type Vote = {
   votingId: number;
   answerId: number;
   username: string;
 }
-export type Answer ={
+export type Answer = {
   answerId: number;
   answer: string;
 }
+
 export interface VotingInfo {
   votingId: number;
   votingName: string;
@@ -63,15 +65,15 @@ export class VotingService {
   constructor(private decoder: TokenDecoderService, private http: HttpClient) {
   }
 
-  public getVotingListForUser(): Observable<Voting[]>{
+  public getVotingListForUser(): Observable<Voting[]> {
     const username = this.decoder.getUsernameFromToken();
     return this.http.get<Voting[]>(`/voting/forUser/${username}`);
   }
 
-  public getVotingWithAnswers(votingId: number): Observable<VotingInfo>{
+  public getVotingWithAnswers(votingId: number): Observable<VotingInfo> {
     let votingInfo = new Subject<VotingInfo>();
     this.http.get<VotingInfo>(`/voting/${votingId}`)
-      .subscribe(returned=>{
+      .subscribe(returned => {
         votingInfo.next(returned);
         return votingInfo;
       }, error => {
@@ -80,22 +82,25 @@ export class VotingService {
     return votingInfo;
   }
 
-  public saveVoting(votingToSave: VotingAdd): Observable<any>{
+  public saveVoting(votingToSave: VotingAdd): Observable<any> {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
     const body = JSON.stringify(votingToSave);
-    return this.http.post("/voting/add", body,{headers});
+    return this.http.post("/voting/add", body, {headers});
   }
-  public deleteVotingById(votingId: number){
+
+  public deleteVotingById(votingId: number) {
     return this.http.delete(`/voting/delete/${votingId}`);
   }
-  public editVoting(votingToEdit: VotingInfo){
+
+  public editVoting(votingToEdit: VotingInfo) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
     const body = JSON.stringify(votingToEdit);
-    return this.http.put("/voting-edit", body,{headers});
+    return this.http.put("/voting-edit", body, {headers});
   }
-  public shareVotingToUser(usernames: string[], votingId: number){
+
+  public shareVotingToUser(usernames: string[], votingId: number) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
     const body = {
@@ -105,28 +110,31 @@ export class VotingService {
     return this.http.post("/shareToUsers", JSON.stringify(body), {headers});
   }
 
-  public getSharedToMeVoting(){
+  public getSharedToMeVoting() {
     const username = this.decoder.getUsernameFromToken();
     let votingList = new Subject<VotingShared[]>();
     this.http.get<VotingShared[]>(`/votingSharedToUser/${username}`)
-      .subscribe(returned =>{
+      .subscribe(returned => {
         votingList.next(returned);
         return votingList;
-      },error => {
+      }, error => {
         console.log(error);
       });
     return votingList;
   }
-  public vote(vote: Vote){
+
+  public vote(vote: Vote) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
     const body = JSON.stringify(vote);
-    return this.http.post("/vote", body,{headers});
+    return this.http.post("/vote", body, {headers});
   }
-  public deactivateVoting(votingId: number){
-    return this.http.put(`/deactivate-voting/${votingId}`,{});
+
+  public deactivateVoting(votingId: number) {
+    return this.http.put(`/deactivate-voting/${votingId}`, {});
   }
-  public getVotingResultForVoting(votingId: number): Observable<VotingResult[]>{
+
+  public getVotingResultForVoting(votingId: number): Observable<VotingResult[]> {
     return this.http.get<VotingResult[]>(`/voting-result/${votingId}`);
   }
 }

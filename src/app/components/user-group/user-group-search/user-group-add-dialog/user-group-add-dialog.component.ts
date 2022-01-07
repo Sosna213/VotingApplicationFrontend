@@ -7,6 +7,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {UserGroupAdd} from "../../../../services/user-group/user-group.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-user-group-add-dialog',
@@ -29,6 +30,7 @@ export class UserGroupAddDialogComponent {
   constructor(
     public userService: UserService,
     public formBuilder: FormBuilder,
+    public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<UserGroupAddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public userGroup: {userGroupInfo: UserGroupAdd,userGroupName: string, usernames: string[], mode: string},
   ) {
@@ -86,6 +88,16 @@ export class UserGroupAddDialogComponent {
   onSubmit(){
     this.userGroup.userGroupInfo.usernames = this.users;
     this.userGroup.userGroupInfo.userGroupName = this.userGroupForm.controls['userGroupName'].value;
-    this.dialogRef.close(this.userGroup.userGroupInfo);
+    if(this.userGroupForm.valid){
+      this.dialogRef.close(this.userGroup.userGroupInfo);
+    } else {
+      this.errorSnackBarOpen("Nieprawidłowe dane");
+    }
+  }
+  private errorSnackBarOpen(message: string) {
+    this.snackBar.open(message, "Zamknij", {
+      duration: 3 * 1000,
+      horizontalPosition: "right"
+    });
   }
 }

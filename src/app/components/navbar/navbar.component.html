@@ -4,7 +4,7 @@
   </div>
   <ng-container *ngIf="!isLoggedIn()">
     <div class="col-1 offset-9 login-button-align">
-      <button mat-raised-button class="navbar-button" color="primary" (click)="goToLoginPage()">
+      <button mat-raised-button class="navbar-button" color="primary" id="logowanie" (click)="goToLoginPage()">
         Logowanie
       </button>
     </div>
@@ -33,7 +33,7 @@
       </button>
     </div>
     <div>
-      <button mat-stroked-button class="navbar-button" color="primary"
+      <button mat-stroked-button class="navbar-button" id="wyloguj" color="primary"
               (click)="logout()">Wyloguj
       </button>
     </div>

@@ -42,13 +42,13 @@ import { SharedToMeVotingSearchComponent } from './components/votings/shared-to-
 import { VoteComponent } from './components/votings/vote/vote.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
-import { UserGroupEditComponent } from './components/user-group/user-group-edit/user-group-edit.component';
 import {UserGroupSearchComponent} from "./components/user-group/user-group-search/user-group-search.component";
 import { UserGroupAddDialogComponent } from './components/user-group/user-group-search/user-group-add-dialog/user-group-add-dialog.component';
 import {NgxEchartsModule} from "ngx-echarts";
 import {PieChartModule} from "@swimlane/ngx-charts";
 import {MatExpansionModule} from "@angular/material/expansion";
 import { DeleteVotingModalComponent } from './components/votings/voting-info/delete-voting-modal/delete-voting-modal.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -65,7 +65,6 @@ import { DeleteVotingModalComponent } from './components/votings/voting-info/del
     ShareToUserDialogComponent,
     SharedToMeVotingSearchComponent,
     VoteComponent,
-    UserGroupEditComponent,
     UserGroupSearchComponent,
     UserGroupAddDialogComponent,
     DeleteVotingModalComponent
@@ -99,6 +98,7 @@ import { DeleteVotingModalComponent } from './components/votings/voting-info/del
         NgxMatMomentModule,
         MatDialogModule,
         MatAutocompleteModule,
+        MatSnackBarModule,
         MatChipsModule,
         NgxEchartsModule.forRoot({
             echarts: () => import('echarts')
