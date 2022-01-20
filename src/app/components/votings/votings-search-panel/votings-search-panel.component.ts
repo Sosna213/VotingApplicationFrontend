@@ -25,4 +25,7 @@ export class VotingsSearchPanelComponent implements OnInit {
   public redirectToVotingPage(votingId: number){
     this.router.navigate(['voting', votingId])
   }
+  goToCreateVotingPage(){
+    this.router.navigate(['create-voting']);
+  }
 }

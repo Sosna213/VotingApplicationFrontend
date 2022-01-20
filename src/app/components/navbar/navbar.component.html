@@ -1,38 +1,31 @@
 <mat-toolbar>
   <div class="col-1">
-    <span>VotingApplication</span>
+    <input type="image" (click)="goToHomePage()" class="logo" src="assets/Logo.png">
   </div>
   <ng-container *ngIf="!isLoggedIn()">
-    <div class="col-1 offset-9 login-button-align">
+    <div class="full-width text-align-right">
       <button mat-raised-button class="navbar-button" color="primary" id="logowanie" (click)="goToLoginPage()">
         Logowanie
       </button>
-    </div>
-    <div class="col-1">
       <button mat-stroked-button class="navbar-button" color="primary"
               (click)="goToRegisterPage()">Rejestracja
       </button>
     </div>
   </ng-container>
   <ng-container *ngIf="isLoggedIn()">
-    <div class="offset-5">
+    <div class="full-width text-align-right">
       <button mat-raised-button class="navbar-button" color="primary" (click)="goToUserGroupSearch()">
         Grupy użytkowników
       </button>
-      <button mat-raised-button class="navbar-button" color="primary" (click)="goToCreateVotingPage()">Dodaj głosowanie
-      </button>
-    </div>
-    <div>
       <button mat-raised-button class="navbar-button" color="primary" (click)="goToVotingSharedToMe()">
         Zagłosuj
       </button>
-    </div>
-    <div >
-      <button mat-raised-button class="navbar-button" color="primary" (click)="goToVotingSearchPage()">
+      <button mat-raised-button class="navbar-button " color="primary" (click)="goToVotingSearchPage()">
         Moje głosowania
       </button>
-    </div>
-    <div>
+      <button mat-raised-button class="navbar-button " color="primary" (click)="goToCreateVotingPage()">
+        Nowe głosowanie
+      </button>
       <button mat-stroked-button class="navbar-button" id="wyloguj" color="primary"
               (click)="logout()">Wyloguj
       </button>

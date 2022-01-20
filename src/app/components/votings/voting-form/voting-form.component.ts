@@ -4,8 +4,6 @@ import {Answer, VotingAdd, VotingInfo, VotingService} from "../../../services/vo
 import {ActivatedRoute, Router} from "@angular/router";
 import {TokenDecoderService} from "../../../services/token-decoder/token-decoder.service";
 import {UserService} from "../../../services/user/user.service";
-import {ThemePalette} from "@angular/material/core";
-import * as moment from 'moment';
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
@@ -16,8 +14,6 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class VotingFormComponent implements OnInit {
 
   @ViewChild('picker') picker: any;
-
-
 
   @Output() votingToAdd = new EventEmitter<VotingAdd>();
   @Output() votingToEdit = new EventEmitter<VotingInfo>();
@@ -53,6 +49,7 @@ export class VotingFormComponent implements OnInit {
         this.votingForm.controls['votingName'].setValue(data.votingName);
         this.votingForm.controls['restricted']?.setValue(data.restricted);
         let date = new Date(data.endDate);
+        console.log(date)
         this.votingForm.controls['endDate']?.setValue(date);
         this.votingForm.controls['limitedInTime'].setValue(true);
         this.votingForm.controls['votingName'].setValue(data.votingName);
@@ -112,7 +109,7 @@ export class VotingFormComponent implements OnInit {
           answers: answers,
         }
         this.votingToAdd.emit(votingToSave);
-      } else if(this.tribe === 'edit'){
+      } else if (this.tribe === 'edit') {
         let answers: Answer[] = this.votingForm.controls['answers'].value;
         const votingToEdit: VotingInfo = {
           votingId: this.votingData.votingId,
@@ -130,10 +127,19 @@ export class VotingFormComponent implements OnInit {
       this.errorSnackBarOpen("Dane są nie prawidłowe");
     }
   }
+
   private errorSnackBarOpen(message: string) {
     this.snackBar.open(message, "Zamknij", {
       duration: 3 * 1000,
       horizontalPosition: "right"
     });
+  }
+
+  votingExplicitChange() {
+    if (this.votingForm.controls['explicit'].value === true) {
+      this.votingForm.controls['restricted'].setValue(true);
+      return true;
+    }
+    return false;
   }
 }

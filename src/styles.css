@@ -1,11 +1,27 @@
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
+.page-footer{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background-color: #f5f5f5;
+}
 html, body {
   height: 100%;
 }
-
+.no-data-img{
+  width: 63%;
+}
+.title-text-font{
+  font-family: sans-serif	;
+  font-weight: bold;
+  font-size: 37px;
+  color: #456caf;
+}
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -15,8 +31,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .text-align-center{
   text-align: center;
 }
+.white{
+  color: white;
+}
 .pr-3{
   padding-right: 1rem !important;
+}
+.ml-3{
+  margin-left: 1rem !important;
 }
 .full-width{
   width: 100%;

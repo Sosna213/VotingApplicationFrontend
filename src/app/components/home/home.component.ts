@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {VotingService} from "../../services/voting/voting.service";
-import {TokenDecoderService} from "../../services/token-decoder/token-decoder.service";
+import {LocalStorageService} from "../../services/local-storage/local-storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -9,10 +9,18 @@ import {TokenDecoderService} from "../../services/token-decoder/token-decoder.se
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private localStorageService: LocalStorageService, private router: Router) { }
 
   ngOnInit(): void {
-
+  }
+  isLoggedIn(): boolean {
+    return this.localStorageService.isLoggedIn();
+  }
+  goToRegisterPage(){
+    this.router.navigate(['register']);
+  }
+  goToCreateVotingPage(){
+    this.router.navigate(['create-voting']);
   }
 
 }

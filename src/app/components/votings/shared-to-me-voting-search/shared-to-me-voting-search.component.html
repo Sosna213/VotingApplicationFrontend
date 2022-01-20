@@ -1,54 +1,75 @@
 <div class="col-8 offset-2">
-  <div>Głosowania udostępnione dla ciebie:</div>
+  <div *ngIf="votingList.length != 0">
+    <div class="text-align-center pt-4 pb-3">
+      <span class="title-text-font">Głosowania udostępnione dla ciebie:</span>
+    </div>
+    <table mat-table [dataSource]="votingList" style="width: 100%" class="mat-elevation-z8 demo-table">
 
-  <table mat-table [dataSource]="votingList" style="width: 100%" class="mat-elevation-z8 demo-table">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let element let i = index">{{i + 1}}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>No.</th>
-      <td mat-cell *matCellDef="let element let i = index">{{i+1}}</td>
-    </ng-container>
+      <ng-container matColumnDef="votingName">
+        <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+        <td mat-cell *matCellDef="let element">{{element.votingDTO.votingName}}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="votingName">
-      <th mat-header-cell *matHeaderCellDef>Nazwa</th>
-      <td mat-cell *matCellDef="let element">{{element.votingDTO.votingName}}</td>
-    </ng-container>
+      <ng-container matColumnDef="question">
+        <th mat-header-cell *matHeaderCellDef>Pytanie</th>
+        <td mat-cell *matCellDef="let element">{{element.votingDTO.question}}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="question">
-      <th mat-header-cell *matHeaderCellDef>Pytanie</th>
-      <td mat-cell *matCellDef="let element">{{element.votingDTO.question}}</td>
-    </ng-container>
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef>Data zakończenia</th>
+        <td mat-cell *matCellDef="let element">{{element.votingDTO.endDate}}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="endDate">
-      <th mat-header-cell *matHeaderCellDef>Data zakończenia</th>
-      <td mat-cell *matCellDef="let element">{{element.votingDTO.endDate}}</td>
-    </ng-container>
+      <ng-container matColumnDef="voted">
+        <th mat-header-cell *matHeaderCellDef>Zagłosowane</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-checkbox [ngModel]="element.voted" [disabled]="true"></mat-checkbox>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="voted">
-      <th mat-header-cell *matHeaderCellDef>Zagłosowane</th>
-      <td mat-cell *matCellDef="let element"><mat-checkbox [ngModel]="element.voted" [disabled]="true"></mat-checkbox></td>
-    </ng-container>
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef>Aktywne</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-checkbox [ngModel]="element.votingDTO.active" [disabled]="true"></mat-checkbox>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="active">
-      <th mat-header-cell *matHeaderCellDef>Aktywne</th>
-      <td mat-cell *matCellDef="let element"><mat-checkbox [ngModel]="element.votingDTO.active" [disabled]="true"></mat-checkbox></td>
-    </ng-container>
+      <ng-container matColumnDef="explicit">
+        <th mat-header-cell *matHeaderCellDef>Jawne</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-checkbox [ngModel]="element.votingDTO.explicit" [disabled]="true"></mat-checkbox>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="explicit">
-      <th mat-header-cell *matHeaderCellDef>Jawne</th>
-      <td mat-cell *matCellDef="let element"><mat-checkbox [ngModel]="element.votingDTO.explicit" [disabled]="true"></mat-checkbox></td>
-    </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        (click)="clickedRows.add(row)"
+        [class.demo-row-is-clicked]="clickedRows.has(row)"
+        *matRowDef="let row; columns: displayedColumns;"
+      ></tr>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr
-      mat-row
-      (click)="clickedRows.add(row)"
-      [class.demo-row-is-clicked]="clickedRows.has(row)"
-      *matRowDef="let row; columns: displayedColumns;"
-    ></tr>
-
-  </table>
+    </table>
 
     <div *ngFor="let clickedRow of clickedRows">
-      <div *ngIf="!clickedRow.voted && clickedRow.votingDTO.active">{{redirectToVote(clickedRow.votingDTO.votingId)}}</div>
+      <div
+        *ngIf="!clickedRow.voted && clickedRow.votingDTO.active">{{redirectToVote(clickedRow.votingDTO.votingId)}}</div>
     </div>
+  </div>
+  <div class="text-align-center pt-3" *ngIf="votingList.length === 0">
+    <mat-card>
+      <div>
+        <img class="no-data-img" src="assets/NoData.png">
+      </div>
+      <span class="title-text-font">Nie udostępniono dla ciebie żadnych głosowań</span>
+    </mat-card>
+  </div>
 </div>
+<footer *ngIf="votingList.length === 0" class="page-footer">
+  <a class="ml-3" href="https://storyset.com/data">Data illustrations by Storyset</a>
+</footer>

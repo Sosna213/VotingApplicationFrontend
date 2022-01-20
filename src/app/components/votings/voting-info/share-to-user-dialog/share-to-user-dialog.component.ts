@@ -6,7 +6,6 @@ import {map, Observable, startWith} from "rxjs";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {UserService} from "../../../../services/user/user.service";
-import {UserGroupService} from "../../../../services/user-group/user-group.service";
 
 
 @Component({
@@ -34,9 +33,9 @@ export class ShareToUserDialogComponent {
     );
   }
 
+
   constructor(
     public userService: UserService,
-    public userGroupService: UserGroupService,
     public dialogRef: MatDialogRef<ShareToUserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public usernames: string[]
   ) {
@@ -46,11 +45,6 @@ export class ShareToUserDialogComponent {
     );
     this.userService.getUsernames().subscribe(result => {
       this.allUsers = result
-    })
-    userGroupService.getUserGroupsForUser().subscribe(result=>{
-      this.allUserGroups = userGroupService.mapUserGroupsToNames(result);
-    }, error =>{
-      console.log(error);
     })
   }
 
@@ -91,8 +85,13 @@ export class ShareToUserDialogComponent {
 
     return this.allUsers.filter(user => user.toLowerCase().includes(filterValue));
   }
-  onSubmit(){
+
+  onSubmit() {
     this.usernames = this.users;
     this.dialogRef.close(this.usernames);
+  }
+
+  userGroupShareSubmit(usernames: string[]){
+    this.dialogRef.close(usernames);
   }
 }

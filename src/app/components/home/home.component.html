@@ -1,1 +1,35 @@
-<p>home works!</p>
+<div class="col-10 offset-1 no-wrap">
+  <mat-grid-list cols="12" rowHeight="50px">
+    <mat-grid-tile colspan="9" rowspan="15">
+      <img class="home-page-image" src="assets/homePageImage.jpg">
+    </mat-grid-tile>
+    <div *ngIf="!isLoggedIn()">
+      <mat-grid-tile colspan="3" rowspan="6">
+      </mat-grid-tile>
+      <mat-grid-tile colspan="3" rowspan="1">
+        <span class="title-text-font">Dołącz do nas już dziś</span>
+      </mat-grid-tile>
+      <mat-grid-tile class="text-align-center" colspan="3" rowspan="2">
+        <span class="home-description">Aplikacja ta jest kierowana do wszystkich, którzy potrzebują szybko i bez większych problemów przeprowadzić głosowanie. </span>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="3" rowspan="2">
+        <button mat-flat-button (click)="goToRegisterPage()" color="primary">Rejestracja</button>
+      </mat-grid-tile>
+    </div>
+    <div *ngIf="isLoggedIn()">
+      <mat-grid-tile colspan="3" rowspan="6">
+      </mat-grid-tile>
+      <mat-grid-tile colspan="3" rowspan="1">
+        <span class="title-text-font">Utwórz głosowanie</span>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="3" rowspan="1">
+        <button mat-flat-button (click)="goToCreateVotingPage()" color="primary">Nowe głosowanie</button>
+      </mat-grid-tile>
+    </div>
+  </mat-grid-list>
+</div>
+
+
+<footer class="page-footer">
+  <a class="ml-3" href='https://pl.freepik.com/wektory/streszczenie'>Streszczenie plik wektorowy utworzone przez pch.vector - pl.freepik.com</a>
+</footer>

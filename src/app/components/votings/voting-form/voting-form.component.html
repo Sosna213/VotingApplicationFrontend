@@ -2,17 +2,14 @@
 
   <form [formGroup]="votingForm" (ngSubmit)="onSubmit()">
     <mat-card>
-      <mat-card-header>
-        <mat-card-title>Dodaj głosowanie</mat-card-title>
+      <mat-card-header class="pb-3 pt-2">
+        <mat-card-title class="title-text-font " *ngIf="tribe === 'edit'">Edytuj głosowanie</mat-card-title>
+        <mat-card-title class="title-text-font" *ngIf="tribe === 'add'">Dodaj głosowanie</mat-card-title>
       </mat-card-header>
       <div class="row">
-
-        <mat-checkbox style="width: 20%" class="pb-3" formControlName="restricted">Ograniczone do zaproszonch</mat-checkbox>
-
+        <mat-checkbox [disabled]="votingExplicitChange()" style="width: 20%" class="pb-3" formControlName="restricted">Ograniczone do zaproszonch</mat-checkbox>
         <mat-checkbox style="width: 10%" class="pb-3" formControlName="explicit">Jawne</mat-checkbox>
-
         <mat-checkbox style="width: 20%" class="pb-3" name="limitedInTime" formControlName="limitedInTime">Ograniczone czasowo:</mat-checkbox>
-
         <mat-form-field style="width: 50%" *ngIf="votingForm.controls['limitedInTime'].value"  appearance="fill">
           <mat-label>Data zakończenia:</mat-label>
           <input matInput [ngxMatDatetimePicker]="picker" placeholder="Wybierz datę zakończenia" formControlName="endTime">
@@ -54,8 +51,8 @@
           </div>
         </div>
         <div class="text-align-center">
-          <button mat-mini-fab type="button" color="primary" (click)="addAnswer()">
-            <mat-icon>add</mat-icon>
+          <button mat-mini-fab type="button" color="accent" (click)="addAnswer()">
+            <mat-icon class="white">add</mat-icon>
           </button>
         </div>
       </div>

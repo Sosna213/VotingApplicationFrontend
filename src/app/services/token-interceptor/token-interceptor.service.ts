@@ -57,7 +57,7 @@ export class TokenInterceptorService implements HttpInterceptor {
     return throwError(err);
   }
 
-  private refreshToken(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  public refreshToken(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.refreshingInProgress) {
       this.refreshingInProgress = true;
       this.accessTokenSubject.next('');

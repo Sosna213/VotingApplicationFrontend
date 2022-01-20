@@ -49,6 +49,8 @@ import {PieChartModule} from "@swimlane/ngx-charts";
 import {MatExpansionModule} from "@angular/material/expansion";
 import { DeleteVotingModalComponent } from './components/votings/voting-info/delete-voting-modal/delete-voting-modal.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ShareToUserGroupComponent } from './components/votings/voting-info/share-to-user-dialog/share-to-user-group/share-to-user-group.component';
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @NgModule({
   declarations: [
@@ -67,7 +69,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     VoteComponent,
     UserGroupSearchComponent,
     UserGroupAddDialogComponent,
-    DeleteVotingModalComponent
+    DeleteVotingModalComponent,
+    ShareToUserGroupComponent
   ],
     imports: [
         BrowserModule,
@@ -104,7 +107,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
             echarts: () => import('echarts')
         }),
         PieChartModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatGridListModule
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }

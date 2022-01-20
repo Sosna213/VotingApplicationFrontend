@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
   goToLoginPage(){
     this.router.navigate(['login']);
   }
@@ -34,9 +35,6 @@ export class NavbarComponent implements OnInit {
   goToRegisterPage(){
     this.router.navigate(['register']);
   }
-  goToCreateVotingPage(){
-    this.router.navigate(['create-voting']);
-  }
   isLoggedIn(): boolean{
       return this.localStorageService.isLoggedIn();
   }
@@ -46,5 +44,7 @@ export class NavbarComponent implements OnInit {
   goToUserGroupSearch(){
     this.router.navigate(['user-group-search']);
   }
-
+  goToCreateVotingPage(){
+    this.router.navigate(['create-voting']);
+  }
 }

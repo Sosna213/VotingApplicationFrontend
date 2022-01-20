@@ -1,0 +1,32 @@
+<mat-form-field *ngIf="allUserGroups.length != 0" class="pt-3 col-12" appearance="fill">
+  <mat-label>Dodawanie grup użytkowników</mat-label>
+  <mat-chip-list #chipList aria-label="Dodawanie użytkowników">
+    <mat-chip
+      *ngFor="let userGroup of userGroups"
+      (removed)="remove(userGroup)">
+      {{userGroup}}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+    <input
+      placeholder="Nazwa grupy użytkowników..."
+
+      #userInput
+      [formControl]="userCtrl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-option *ngFor="let userGroup of filteredUserGroups | async" [value]="userGroup">
+      {{userGroup}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+<div class="pt-3" *ngIf="allUserGroups.length === 0">
+  <h2>Nie posiadasz grup użytkowników</h2>
+</div>
+
+<button mat-button (click)="onNoClick()">Anuluj</button>
+<button mat-button (click)="onSubmit()" cdkFocusInitial>Dodaj</button>

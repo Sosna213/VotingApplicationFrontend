@@ -1,23 +1,44 @@
-<div class="col-8 offset-2">
-  <h1>Twoje grupy użytkowników</h1>
-
-  <mat-list>
-    <mat-list-item>
-      <span class="col-1"><strong>No.</strong></span>
-      <span class="pr-3 col-2"><strong>Nazwa grupy:</strong></span>
-      <div class="col-7"><strong>Użytkownicy:</strong></div>
-    </mat-list-item>
-    <mat-list-item class="mt-1" *ngFor="let userGroup of userGroupInfos let i=index" >
-      <span class="col-1"><p>{{i + 1}}.</p></span>
-      <span class="pr-3 col-2"><p>{{userGroup.userGroupName}}</p></span>
+<div class="col-8 offset-2" *ngIf="userGroupInfos.length != 0">
+  <div class="text-align-center pt-4 pb-3">
+    <span class="title-text-font">Twoje grupy użytkowników:</span>
+  </div>
+  <mat-card>
+    <mat-list>
+      <mat-list-item>
+        <span class="col-1"><strong>No.</strong></span>
+        <span class="pr-3 col-2"><strong>Nazwa grupy:</strong></span>
+        <div class="col-7"><strong>Użytkownicy:</strong></div>
+      </mat-list-item>
+      <mat-list-item class="mt-1" *ngFor="let userGroup of userGroupInfos let i=index">
+        <span class="col-1"><p>{{i + 1}}.</p></span>
+        <span class="pr-3 col-2"><p>{{userGroup.userGroupName}}</p></span>
         <div *ngFor="let username of userGroup.usernames"><p class="pr-3">{{username}}</p></div>
-     <div class="text-align-right" style="width: 100%">
-       <button mat-flat-button class="mr-2" (click)="openEditUserGroupDialog(userGroup.userGroupId)">Edytuj</button>
-       <button mat-flat-button color="warn" (click)="deleteUserGroup(userGroup.userGroupId)">Usuń</button>
-     </div>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-  </mat-list>
+        <div class="text-align-right" style="width: 100%">
+          <button mat-flat-button class="mr-2" (click)="openEditUserGroupDialog(userGroup.userGroupId)">Edytuj</button>
+          <button mat-flat-button color="warn" (click)="deleteUserGroup(userGroup.userGroupId)">Usuń</button>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
 
-  <button class="mt-3" mat-flat-button color="primary" (click)="openCreateUserGroupDialog()">Dodaj</button>
+    <button class="mt-3" mat-flat-button color="primary" (click)="openCreateUserGroupDialog()">Dodaj</button>
+  </mat-card>
 </div>
+<div class="col-8 offset-2" *ngIf="userGroupInfos.length === 0">
+  <div class="text-align-center pt-3">
+    <mat-card>
+      <div>
+        <img class="no-data-img" src="assets/NoData.png">
+      </div>
+      <div>
+        <span class="title-text-font">Posiadasz żadnych grup użytkowników</span>
+      </div>
+      <button mat-flat-button class="mt-3" (click)="openCreateUserGroupDialog()" color="primary">Nowa grupa
+        użytkowników
+      </button>
+    </mat-card>
+  </div>
+</div>
+<footer *ngIf="userGroupInfos.length === 0" class="page-footer">
+  <a class="ml-3" href="https://storyset.com/data">Data illustrations by Storyset</a>
+</footer>
