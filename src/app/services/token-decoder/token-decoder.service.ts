@@ -15,7 +15,7 @@ export interface DecodedToken {
 })
 export class TokenDecoderService {
 
-  constructor(private localStorageService: LocalStorageService, private tokenInterceptor: TokenInterceptorService) {
+  constructor(private localStorageService: LocalStorageService) {
   }
 
   public getUsernameFromToken(): string {

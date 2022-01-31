@@ -35,6 +35,10 @@ export interface VotingInfo {
   answers: Answer[];
 }
 
+export type VotingToken = {
+  token: string;
+}
+
 export type VotingAdd = {
   userId: number;
   votingName: string;
@@ -136,5 +140,8 @@ export class VotingService {
 
   public getVotingResultForVoting(votingId: number): Observable<VotingResult[]> {
     return this.http.get<VotingResult[]>(`/voting-result/${votingId}`);
+  }
+  public getVotingToken(votingId: number): Observable<VotingToken>{
+    return this.http.get<VotingToken>(`/voting/get-token/${votingId}`);
   }
 }

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {VotingInfo, VotingResult, VotingService} from "../../../services/voting/voting.service";
+import {Component, OnInit} from '@angular/core';
+import {VotingInfo, VotingResult, VotingService, VotingToken} from "../../../services/voting/voting.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ShareToUserDialogComponent} from "./share-to-user-dialog/share-to-user-dialog.component";
 import {DeleteVotingModalComponent} from "./delete-voting-modal/delete-voting-modal.component";
+import {ShareByLinkDialogComponent} from "./share-by-link-dialog/share-by-link-dialog.component";
 
 
 @Component({
@@ -19,60 +20,73 @@ export class VotingInfoComponent implements OnInit {
   votingResult: VotingResult[] = [];
   resultVisible: boolean = false;
   totalOfAnswers: number = 0;
+  votingId: any;
+  votingToken!: VotingToken;
 
-  constructor(private votingService: VotingService,public dialog: MatDialog, private activatedRoute: ActivatedRoute, private router: Router) { }
+  constructor(private votingService: VotingService, public dialog: MatDialog, private activatedRoute: ActivatedRoute, private router: Router) {
+  }
 
   ngOnInit(): void {
-    if(this.activatedRoute.snapshot.routeConfig?.path === 'voting/:votingId'){
-      let votingId: any;
-      votingId = this.activatedRoute.snapshot.paramMap.get('votingId');
-      this.votingService.getVotingWithAnswers(votingId).subscribe(data=>{
+    if (this.activatedRoute.snapshot.routeConfig?.path === 'voting/:votingId') {
+      this.votingId = this.activatedRoute.snapshot.paramMap.get('votingId');
+      this.votingService.getVotingWithAnswers(this.votingId).subscribe(data => {
         this.votingInfo = data;
       });
-      this.votingService.getVotingResultForVoting(votingId).subscribe(result=>{
+      this.votingService.getVotingResultForVoting(this.votingId).subscribe(result => {
         this.votingResult = result;
-        this.votingResult.forEach(result=>{
-          this.totalOfAnswers+= result.value;
+        this.votingResult.forEach(result => {
+          this.totalOfAnswers += result.value;
         })
       });
     }
   }
-  showResult(){
+
+  showResult() {
     this.resultVisible = !this.resultVisible;
   }
-  getNumberOfResultForAnswer(answerId: number): VotingResult{
+
+  getNumberOfResultForAnswer(answerId: number): VotingResult {
     let votingResultForAnswer = {} as VotingResult;
-    this.votingResult.forEach(result=>{
-      if(result.answerId === answerId)
-        votingResultForAnswer =  result;
+    this.votingResult.forEach(result => {
+      if (result.answerId === answerId)
+        votingResultForAnswer = result;
     })
     return votingResultForAnswer;
   }
 
   openShareVotingDialog(): void {
-    const dialogRef = this.dialog.open(ShareToUserDialogComponent, {
-      width: '700px',
-      data: {usernames: this.usernamesToAdd}
-    });
+    if (this.votingInfo.restricted) {
+      const dialogRef = this.dialog.open(ShareToUserDialogComponent, {
+        width: '700px',
+        data: {usernames: this.usernamesToAdd}
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.usernamesToAdd = result;
-      if(this.usernamesToAdd != null){
-        this.votingService.shareVotingToUser(this.usernamesToAdd, this.votingInfo.votingId)
-          .subscribe(result=>{
-            console.log(result);
-          }, error=>{
-            console.log(error);
-          })
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        this.usernamesToAdd = result;
+        if (this.usernamesToAdd != null) {
+          this.votingService.shareVotingToUser(this.usernamesToAdd, this.votingInfo.votingId)
+            .subscribe(result => {
+            }, error => {
+              console.log(error);
+            })
+        }
+      });
+    } else {
+      this.votingService.getVotingToken(this.votingId).subscribe(result => {
+        console.log(result);
+        const dialogRef = this.dialog.open(ShareByLinkDialogComponent, {
+          width: '1100px',
+          data: {votingToken: result}
+        });
+      });
+    }
   }
 
-  gotToVotingEditPage(){
+  gotToVotingEditPage() {
     this.router.navigate(['edit-voting', this.votingInfo.votingId]);
   }
 
-  deleteVoting(votingId: number){
+  deleteVoting(votingId: number) {
 
     const dialogRef = this.dialog.open(DeleteVotingModalComponent, {
       width: '700px',
@@ -80,19 +94,18 @@ export class VotingInfoComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      if(result != null){
-        this.votingService.deleteVotingById(result.votingId).subscribe(result=>{
-            console.log(result);
-            this.router.navigate(['voting-search']);
-          }, error=>{
-            console.log(error);
-          })
+      if (result != null) {
+        this.votingService.deleteVotingById(result.votingId).subscribe(result => {
+          this.router.navigate(['voting-search']);
+        }, error => {
+          console.log(error);
+        })
       }
     });
   }
-  deactivate(){
-    this.votingService.deactivateVoting(this.votingInfo.votingId).subscribe(result=>{
+
+  deactivate() {
+    this.votingService.deactivateVoting(this.votingInfo.votingId).subscribe(result => {
       location.reload();
     }, error => {
       console.log(error)

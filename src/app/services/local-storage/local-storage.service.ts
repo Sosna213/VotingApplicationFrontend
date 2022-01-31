@@ -33,7 +33,6 @@ export class LocalStorageService {
   }
 
   isLoggedIn(): boolean {
-
     if(this.getItem('token') != null){
       const token = this.getItem('token');
       const decoded: DecodedToken = jwt_decode(token);

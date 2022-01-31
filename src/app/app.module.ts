@@ -51,6 +51,7 @@ import { DeleteVotingModalComponent } from './components/votings/voting-info/del
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ShareToUserGroupComponent } from './components/votings/voting-info/share-to-user-dialog/share-to-user-group/share-to-user-group.component';
 import {MatGridListModule} from "@angular/material/grid-list";
+import { ShareByLinkDialogComponent } from './components/votings/voting-info/share-by-link-dialog/share-by-link-dialog.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
     UserGroupSearchComponent,
     UserGroupAddDialogComponent,
     DeleteVotingModalComponent,
-    ShareToUserGroupComponent
+    ShareToUserGroupComponent,
+    ShareByLinkDialogComponent
   ],
     imports: [
         BrowserModule,

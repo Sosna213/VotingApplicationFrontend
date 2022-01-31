@@ -50,6 +50,10 @@ const routes: Routes = [
     component: VoteComponent,
   },
   {
+    path: 'vote/token/:token',
+    component: VoteComponent,
+  },
+  {
     path: 'user-group-search',
     component: UserGroupSearchComponent,
   }
