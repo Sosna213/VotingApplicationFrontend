@@ -1,0 +1,14 @@
+<div>
+  <h2>Link do udostępnienia:</h2>
+</div>
+<div>
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Link</mat-label>
+    <input matInput ngModel="{{getLink()}}" readonly="true">
+    <mat-hint align="start"><strong>Link będzie aktywny 10 min</strong> </mat-hint>
+  </mat-form-field>
+</div>
+<hr>
+<div class="text-align-right">
+  <button mat-button class="pr-3" color="primary" (click)="onNoClick()">Zamknij</button>
+</div>
