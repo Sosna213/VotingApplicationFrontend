@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
+import {UntypedFormBuilder, Validators} from "@angular/forms";
 import {UserService} from "../../services/user/user.service";
 import {Router} from "@angular/router";
 import {RegexValidator} from "../../validators/regexp-validators";
@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
   response: any;
   readonly registerUrl = '/register';
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router, private snackBar: MatSnackBar) {
+  constructor(private formBuilder: UntypedFormBuilder, private userService: UserService, private router: Router, private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {

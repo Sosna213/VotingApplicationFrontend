@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 import {Answer, VotingAdd, VotingInfo, VotingService} from "../../../services/voting/voting.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {TokenDecoderService} from "../../../services/token-decoder/token-decoder.service";
 import {UserService} from "../../../services/user/user.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -27,11 +27,11 @@ export class VotingFormComponent implements OnInit {
     limitedInTime: false,
     restricted: false,
     explicit: false,
-    endTime: new FormControl(null),
+    endTime: new UntypedFormControl(null),
     answers: this.formBuilder.array([])
   });
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private tokenDecode: TokenDecoderService,
               private userService: UserService,
               private activatedRoute: ActivatedRoute,
@@ -68,11 +68,11 @@ export class VotingFormComponent implements OnInit {
     });
   }
 
-  answers(): FormArray {
-    return this.votingForm.get("answers") as FormArray
+  answers(): UntypedFormArray {
+    return this.votingForm.get("answers") as UntypedFormArray
   }
 
-  newAnswer(): FormGroup {
+  newAnswer(): UntypedFormGroup {
     return this.formBuilder.group({
         answerId: null,
         answer: ''
@@ -84,7 +84,7 @@ export class VotingFormComponent implements OnInit {
     this.answers().push(this.newAnswer());
   }
 
-  newAnswerWithData(answer: String): FormGroup {
+  newAnswerWithData(answer: String): UntypedFormGroup {
     return this.formBuilder.group({
         answer: answer
       }

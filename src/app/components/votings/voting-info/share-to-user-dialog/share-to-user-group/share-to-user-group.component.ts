@@ -1,13 +1,11 @@
-import {Component, ElementRef, EventEmitter, Inject, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {map, Observable, startWith} from "rxjs";
 import {UserService} from "../../../../../services/user/user.service";
 import {UserGroupInfo, UserGroupService} from "../../../../../services/user-group/user-group.service";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {FormControl} from "@angular/forms";
-import {consoleLog} from "echarts/types/src/util/log";
+import {UntypedFormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-share-to-user-group',
@@ -19,12 +17,12 @@ export class ShareToUserGroupComponent implements OnInit {
   @Output() usernamesFromGroup = new EventEmitter<string[]>();
   @Output() dialogClose = new EventEmitter();
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  userCtrl = new FormControl();
+  userCtrl = new UntypedFormControl();
   filteredUserGroups!: Observable<string[]>;
   userGroups: string[] = [];
   allUserGroupsInfo: UserGroupInfo[] = [];
   allUserGroups: string[] = [];
-  userGroupControl = new FormControl();
+  userGroupControl = new UntypedFormControl();
 
   filteredOptions!: Observable<string[]>;
 

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
+import {UntypedFormBuilder, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthService} from "../../services/auth/auth.service";
 import {LocalStorageService} from "../../services/local-storage/local-storage.service";
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   readonly loginUrl = '/login';
   response: any;
 
-  constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar, private authService: AuthService, private router: Router, private localStorage: LocalStorageService) {
+  constructor(private formBuilder: UntypedFormBuilder, private snackBar: MatSnackBar, private authService: AuthService, private router: Router, private localStorage: LocalStorageService) {
   }
 
   ngOnInit(): void {

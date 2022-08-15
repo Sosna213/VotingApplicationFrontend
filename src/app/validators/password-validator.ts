@@ -1,7 +1,7 @@
-import {AbstractControl, FormGroup} from "@angular/forms";
+import {UntypedFormGroup} from "@angular/forms";
 
 export function PasswordMatchValidator(controlName: string, matchingControlName: string) {
-  return (formGroup: FormGroup) =>{
+  return (formGroup: UntypedFormGroup) =>{
     const control = formGroup.controls[controlName];
     const  matchingControl = formGroup.controls[matchingControlName];
     // @ts-ignore

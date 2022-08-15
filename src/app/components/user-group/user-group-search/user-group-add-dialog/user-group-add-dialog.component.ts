@@ -1,6 +1,6 @@
-import {Component, ElementRef, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject,ViewChild} from '@angular/core';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {FormBuilder, FormControl, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormControl, Validators} from "@angular/forms";
 import {map, Observable, startWith} from "rxjs";
 import {UserService} from "../../../../services/user/user.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
@@ -17,7 +17,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class UserGroupAddDialogComponent {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  userCtrl = new FormControl();
+  userCtrl = new UntypedFormControl();
   filteredUsers!: Observable<string[]>;
   users: string[] = [];
   allUsers: string[] = [];
@@ -29,7 +29,7 @@ export class UserGroupAddDialogComponent {
 
   constructor(
     public userService: UserService,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<UserGroupAddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public userGroup: {userGroupInfo: UserGroupAdd,userGroupName: string, usernames: string[], mode: string},

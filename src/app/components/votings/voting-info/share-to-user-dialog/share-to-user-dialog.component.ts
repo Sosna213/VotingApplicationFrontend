@@ -1,7 +1,7 @@
 import {Component, ElementRef, Inject, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {FormControl} from "@angular/forms";
+import {UntypedFormControl} from "@angular/forms";
 import {map, Observable, startWith} from "rxjs";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatChipInputEvent} from "@angular/material/chips";
@@ -17,12 +17,12 @@ export class ShareToUserDialogComponent {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   sharingMode: string = "user";
-  userCtrl = new FormControl();
+  userCtrl = new UntypedFormControl();
   filteredUsers!: Observable<string[]>;
   users: string[] = [];
   allUsers: string[] = [];
   allUserGroups: string[] = [];
-  userGroupControl = new FormControl();
+  userGroupControl = new UntypedFormControl();
 
   filteredOptions!: Observable<string[]>;
 
