@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
 import {LocalStorageService} from "../local-storage/local-storage.service";
-import {AuthService} from "../auth/auth.service";
-import {TokenInterceptorService} from "../token-interceptor/token-interceptor.service";
 
 export interface DecodedToken {
   exp: number;
@@ -18,7 +16,7 @@ export class TokenDecoderService {
   constructor(private localStorageService: LocalStorageService) {
   }
 
-  public getUsernameFromToken(): string {
+  public getUserIdFromToken(): string {
     const token = this.localStorageService.getItem('token');
     const decoded: DecodedToken = jwt_decode(token);
     return decoded.sub;

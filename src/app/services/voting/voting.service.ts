@@ -17,7 +17,7 @@ export interface Voting {
 export type Vote = {
   votingId: number;
   answerId: number;
-  username: string;
+  userId: string;
 }
 export type Answer = {
   answerId: number;
@@ -70,8 +70,8 @@ export class VotingService {
   }
 
   public getVotingListForUser(): Observable<Voting[]> {
-    const username = this.decoder.getUsernameFromToken();
-    return this.http.get<Voting[]>(`/voting/forUser/${username}`);
+    const userId = this.decoder.getUserIdFromToken();
+    return this.http.get<Voting[]>(`/voting/forUser/${userId}`);
   }
 
   public getVotingWithAnswers(votingId: number): Observable<VotingInfo> {
@@ -115,9 +115,9 @@ export class VotingService {
   }
 
   public getSharedToMeVoting() {
-    const username = this.decoder.getUsernameFromToken();
+    const userId = this.decoder.getUserIdFromToken();
     let votingList = new Subject<VotingShared[]>();
-    this.http.get<VotingShared[]>(`/votingSharedToUser/${username}`)
+    this.http.get<VotingShared[]>(`/votingSharedToUser/${userId}`)
       .subscribe(returned => {
         votingList.next(returned);
         return votingList;

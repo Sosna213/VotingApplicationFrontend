@@ -24,7 +24,7 @@ import {MatSliderModule} from "@angular/material/slider";
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
-import {TokenInterceptorService} from "./services/token-interceptor/token-interceptor.service";
+// import {TokenInterceptorService} from "./services/token-interceptor/token-interceptor.service";
 import {VotingCreateComponent} from "./components/votings/voting-create/voting-create.component";
 import { VotingsSearchPanelComponent } from './components/votings/votings-search-panel/votings-search-panel.component';
 import {MatTableModule} from "@angular/material/table";
@@ -52,6 +52,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ShareToUserGroupComponent } from './components/votings/voting-info/share-to-user-dialog/share-to-user-group/share-to-user-group.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { ShareByLinkDialogComponent } from './components/votings/voting-info/share-by-link-dialog/share-by-link-dialog.component';
+import {TokenInterceptorService} from "./services/token-interceptor/token-interceptor.service";
 
 @NgModule({
   declarations: [

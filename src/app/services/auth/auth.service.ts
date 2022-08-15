@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UserLoginModel} from "../../components/login/login.component";
 import {LocalStorageService} from "../local-storage/local-storage.service";
 import {catchError, Observable, tap, throwError} from "rxjs";
 
 interface LoginResponse {
-  accessToken: string;
-  refreshToken: string;
+  access_token: string;
+  refresh_token: string;
 }
 
 
@@ -16,41 +16,39 @@ interface LoginResponse {
 export class AuthService {
   constructor(
     private http: HttpClient,
-    private localStorageService: LocalStorageService) {}
-
-  public loginUser(url: string, userLoginData: UserLoginModel) :Observable<LoginResponse>{
-
-    const body = new HttpParams()
-      .set('username', userLoginData.username)
-      .set('password', userLoginData.password)
-
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/x-www-form-urlencoded');
-
-   return this.http.post<LoginResponse>('/login', body.toString(), {
-     headers,
-     withCredentials: true
-   })
-     .pipe(
-       catchError((err => {
-         console.error(err);
-         return throwError(err);
-       }))
-     );
+    private localStorageService: LocalStorageService) {
   }
 
-  refreshToken(): Observable<{accessToken: string; refreshToken: string}> {
-    const refreshToken = this.localStorageService.getItem('refreshToken');
+  public loginUser(url: string, userLoginData: UserLoginModel): Observable<LoginResponse> {
 
-    return this.http.get<{accessToken: string; refreshToken: string}>(
-      '/token-refresh',
-      ).pipe(
+    const body = JSON.stringify(userLoginData);
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    return this.http.post<LoginResponse>('/login', body, {
+      headers,
+      withCredentials: true
+    })
+      .pipe(
+        catchError((err => {
+          console.error(err);
+          return throwError(err);
+        }))
+      );
+  }
+
+  refreshToken(): Observable<{ access_token: string; refresh_token: string }> {
+    const refreshToken = this.localStorageService.getItem('refreshToken');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+    return this.http.post<{access_token: string; refresh_token: string}>("token-refresh", refreshToken, {headers}).pipe(
       tap(response => {
-        this.setToken('token', response.accessToken);
-        this.setToken('refreshToken', response.refreshToken);
+        this.setToken('token', response.access_token);
+        this.setToken('refreshToken', response.refresh_token);
       })
     );
   }
+
   logout(): void {
     this.localStorageService.removeItem('token');
     this.localStorageService.removeItem('refreshToken');

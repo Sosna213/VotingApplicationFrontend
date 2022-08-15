@@ -7,7 +7,6 @@ import {
   UserGroupInfo,
   UserGroupService
 } from "../../../services/user-group/user-group.service";
-import {Voting, VotingShared} from "../../../services/voting/voting.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 
@@ -28,7 +27,6 @@ export class UserGroupSearchComponent implements OnInit {
   ngOnInit(): void {
     this.userGroupService.getUserGroupsForUser().subscribe(data => {
       this.userGroupInfos = data;
-      console.log(this.userGroupInfos);
     }, error => {
       console.log(error);
     });
@@ -46,7 +44,6 @@ export class UserGroupSearchComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.userGroupToAdd = result;
-      console.log(this.userGroupToAdd);
       this.userGroupService.addUserGroup(this.userGroupToAdd).subscribe(result=>{
         location.reload();
       }, error => {
@@ -85,7 +82,6 @@ export class UserGroupSearchComponent implements OnInit {
   }
   deleteUserGroup(userGroupId: number) {
     this.userGroupService.deleteUserGroupById(userGroupId).subscribe(response => {
-      console.log(response);
       location.reload();
     }, error => {
       this.errorSnackBarOpen(error.error.error)

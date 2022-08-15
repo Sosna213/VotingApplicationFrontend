@@ -22,7 +22,6 @@ export class TokenInterceptorService implements HttpInterceptor {
 
     return next.handle(this.addAuthorizationHeader(req, accessToken)).pipe(
       catchError(err => {
-
         if (err instanceof HttpErrorResponse && err.status === 401) {
           const refreshToken = this.localStorageService.getItem('refreshToken');
           if (refreshToken && accessToken) {
@@ -39,13 +38,11 @@ export class TokenInterceptorService implements HttpInterceptor {
   }
 
   private addAuthorizationHeader(request: HttpRequest<any>, token: string): HttpRequest<any> {
-    if (token && request.url !='/token-refresh') {
-      // console.log(request.url)
+    if (token && request.url !='token-refresh' && request.url !='/login') {
       return request.clone({setHeaders: {Authorization: `Bearer ${token}`}});
     }
-    const refreshToken = this.localStorageService.getItem('refreshToken');
-    if (refreshToken && request.url === '/token-refresh') {
-      return request.clone({setHeaders: {Authorization: `Bearer ${refreshToken}`}});
+    if (request.url === 'token-refresh') {
+      return request.clone();
     }
     return request;
   }
@@ -65,8 +62,8 @@ export class TokenInterceptorService implements HttpInterceptor {
       return this.authService.refreshToken().pipe(
         switchMap((res) => {
           this.refreshingInProgress = false;
-          this.accessTokenSubject.next(res.accessToken);
-          return next.handle(this.addAuthorizationHeader(request, res.accessToken));
+          this.accessTokenSubject.next(res.access_token);
+          return next.handle(this.addAuthorizationHeader(request, res.access_token));
         })
       );
     } else {

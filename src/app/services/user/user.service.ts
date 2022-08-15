@@ -12,16 +12,14 @@ export class UserService {
   constructor(private http: HttpClient, private tokenDecoder: TokenDecoderService) { }
 
   public registerUser(url: String, data: UserRegisterModel): Observable<Object>{
-    let response: any;
     return this.http.post('/register', data);
-
   }
   public getActiveUserId(): Observable<number>{
 
     let userId = new Subject<number>()
-    let username = this.tokenDecoder.getUsernameFromToken();
+    let userKcId = this.tokenDecoder.getUserIdFromToken();
 
-    this.http.get<number>(`/userId/${username}`)
+    this.http.get<number>(`/userId/${userKcId}`)
       .subscribe(response =>{
         userId.next(response);
         return userId;

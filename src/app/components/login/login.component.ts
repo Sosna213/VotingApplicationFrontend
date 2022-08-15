@@ -41,12 +41,12 @@ export class LoginComponent implements OnInit {
       }
       this.authService.loginUser(this.loginUrl, userLoginData)
         .subscribe(res => {
-            this.localStorage.setItem('token', res.accessToken);
-            this.localStorage.setItem('refreshToken', res.refreshToken);
+            this.localStorage.setItem('token', res.access_token);
+            this.localStorage.setItem('refreshToken', res.refresh_token);
             this.router.navigate(['']);
           },
           error => {
-            if (error.status = 403) {
+            if (error.status === 403) {
               this.errorSnackBarOpen("Nieprawidłowy login lub hasło");
             } else {
               this.errorSnackBarOpen(error.error.error);

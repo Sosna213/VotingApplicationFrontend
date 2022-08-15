@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {DecodedToken, TokenDecoderService} from "../token-decoder/token-decoder.service";
+import {DecodedToken} from "../token-decoder/token-decoder.service";
 import jwt_decode from "jwt-decode";
 
 @Injectable({
@@ -17,7 +17,6 @@ export class LocalStorageService {
   getItem(key: string): any {
     try {
       const item = localStorage.getItem(key);
-
       return JSON.parse(<string>item);
     } catch (e) {
       console.log(e)
@@ -33,7 +32,7 @@ export class LocalStorageService {
   }
 
   isLoggedIn(): boolean {
-    if(this.getItem('token') != null){
+    if (this.getItem('token') != null) {
       const token = this.getItem('token');
       const decoded: DecodedToken = jwt_decode(token);
       if (this.checkIfTokenExpired(decoded)) {

@@ -27,14 +27,14 @@ export class UserGroupService {
   constructor(private decoder: TokenDecoderService, private http: HttpClient) { }
 
   public addUserGroup(userGroupToAdd: UserGroupAdd){
-    userGroupToAdd.ownerUsername  = this.decoder.getUsernameFromToken();
+    userGroupToAdd.ownerUsername  = this.decoder.getUserIdFromToken();
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
     const body = JSON.stringify(userGroupToAdd);
     return this.http.post("/users-group/add", body,{headers});
   }
   public editUserGroup(userGroupEdit: UserGroupEdit){
-    userGroupEdit.userGroupAddDTO.ownerUsername  = this.decoder.getUsernameFromToken();
+    userGroupEdit.userGroupAddDTO.ownerUsername  = this.decoder.getUserIdFromToken();
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
     const body = JSON.stringify(userGroupEdit);
@@ -42,8 +42,8 @@ export class UserGroupService {
   }
 
   public getUserGroupsForUser(): Observable<UserGroupInfo[]>{
-    let username = this.decoder.getUsernameFromToken();
-    return this.http.get<UserGroupInfo[]>(`/user-group/${username}`);
+    let userId = this.decoder.getUserIdFromToken();
+    return this.http.get<UserGroupInfo[]>(`/user-group/${userId}`);
   }
 
   public mapUserGroupsToNames(userGroups: UserGroupInfo[]): string[]{

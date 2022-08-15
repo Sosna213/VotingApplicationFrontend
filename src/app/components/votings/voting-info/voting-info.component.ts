@@ -73,8 +73,7 @@ export class VotingInfoComponent implements OnInit {
       });
     } else {
       this.votingService.getVotingToken(this.votingId).subscribe(result => {
-        console.log(result);
-        const dialogRef = this.dialog.open(ShareByLinkDialogComponent, {
+        this.dialog.open(ShareByLinkDialogComponent, {
           width: '1100px',
           data: {votingToken: result}
         });

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {Vote, VotingInfo, VotingService} from "../../../services/voting/voting.service";
-import {MatDialog} from "@angular/material/dialog";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DecodedToken, TokenDecoderService} from "../../../services/token-decoder/token-decoder.service";
 import jwt_decode from "jwt-decode";
@@ -36,7 +35,6 @@ export class VoteComponent implements OnInit {
       const decoded: DecodedToken = jwt_decode(token);
       if(!(this.localstorage.getItem("votingToken") === token)){
         if(!this.localstorage.checkIfTokenExpired(token)){
-          console.log("XDDD2")
           this.votingService.getVotingWithAnswers(parseInt(decoded.sub)).subscribe(data=>{
             this.votingInfo = data;
           });
@@ -48,11 +46,10 @@ export class VoteComponent implements OnInit {
     const vote: Vote = {
       votingId: this.votingInfo.votingId,
       answerId: this.answerVotedId,
-      username: this.decoder.getUsernameFromToken()
+      userId: this.decoder.getUserIdFromToken()
     }
     this.votingService.vote(vote)
       .subscribe(result=>{
-      console.log("Vote success");
         if(this.activatedRoute.snapshot.routeConfig?.path === 'vote/token/:token'){
           const token = this.activatedRoute.snapshot.paramMap.get('token');
           this.localstorage.setItem("votingToken", token);
