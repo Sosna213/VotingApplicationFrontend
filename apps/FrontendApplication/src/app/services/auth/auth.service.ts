@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UserLoginModel} from "../../components/login/login.component";
 import {LocalStorageService} from "../local-storage/local-storage.service";
-import {catchError, Observable, tap, throwError} from "rxjs";
+import {Observable, catchError, tap, throwError} from "rxjs";
 
 interface LoginResponse {
   access_token: string;

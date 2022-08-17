@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from "rxjs";
+import {BehaviorSubject, Observable, catchError, filter, switchMap, take, throwError} from "rxjs";
 import {LocalStorageService} from "../local-storage/local-storage.service";
 import {AuthService} from "../auth/auth.service";
 import {Router} from "@angular/router";

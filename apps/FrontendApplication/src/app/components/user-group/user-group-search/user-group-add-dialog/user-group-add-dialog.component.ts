@@ -1,7 +1,7 @@
 import {Component, ElementRef, Inject,ViewChild} from '@angular/core';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {UntypedFormBuilder, UntypedFormControl, Validators} from "@angular/forms";
-import {map, Observable, startWith} from "rxjs";
+import {Observable, map, startWith} from "rxjs";
 import {UserService} from "../../../../services/user/user.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatChipInputEvent} from "@angular/material/chips";

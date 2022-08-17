@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {map, Observable, startWith} from "rxjs";
+import {Observable, map, startWith} from "rxjs";
 import {UserService} from "../../../../../services/user/user.service";
 import {UserGroupInfo, UserGroupService} from "../../../../../services/user-group/user-group.service";
 import {MatChipInputEvent} from "@angular/material/chips";

@@ -24,7 +24,6 @@ export class LoginComponent  {
   )
   hide = true;
   readonly loginUrl = '/login';
-  response: any;
 
   constructor(private formBuilder: UntypedFormBuilder, private snackBar: MatSnackBar, private authService: AuthService, private router: Router, private localStorage: LocalStorageService) {
   }

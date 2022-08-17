@@ -1,22 +1,20 @@
-import {Component, ElementRef, Inject, ViewChild} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {UntypedFormControl} from "@angular/forms";
-import {map, Observable, startWith} from "rxjs";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {MatChipInputEvent} from "@angular/material/chips";
-import {UserService} from "../../../../services/user/user.service";
-
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { UntypedFormControl } from '@angular/forms';
+import { Observable, map, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { UserService } from '../../../../services/user/user.service';
 
 @Component({
   selector: 'app-share-to-user-dialog',
   templateUrl: './share-to-user-dialog.component.html',
-  styleUrls: ['./share-to-user-dialog.component.css']
+  styleUrls: ['./share-to-user-dialog.component.css'],
 })
 export class ShareToUserDialogComponent {
-
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  sharingMode = "user";
+  sharingMode = 'user';
   userCtrl = new UntypedFormControl();
   filteredUsers!: Observable<string[]>;
   users: string[] = [];
@@ -29,10 +27,9 @@ export class ShareToUserDialogComponent {
   ngOnInit() {
     this.filteredOptions = this.userGroupControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value)),
+      map((value) => this._filter(value))
     );
   }
-
 
   constructor(
     public userService: UserService,
@@ -41,11 +38,13 @@ export class ShareToUserDialogComponent {
   ) {
     this.filteredUsers = this.userCtrl.valueChanges.pipe(
       startWith(null),
-      map((user: string | null) => (user ? this._filter(user) : this.allUsers.slice())),
+      map((user: string | null) =>
+        user ? this._filter(user) : this.allUsers.slice()
+      )
     );
-    this.userService.getUsernames().subscribe(result => {
-      this.allUsers = result
-    })
+    this.userService.getUsernames().subscribe((result) => {
+      this.allUsers = result;
+    });
   }
 
   @ViewChild('userInput') userInput!: ElementRef<HTMLInputElement>;
@@ -83,7 +82,9 @@ export class ShareToUserDialogComponent {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allUsers.filter(user => user.toLowerCase().includes(filterValue));
+    return this.allUsers.filter((user) =>
+      user.toLowerCase().includes(filterValue)
+    );
   }
 
   onSubmit() {
@@ -91,7 +92,7 @@ export class ShareToUserDialogComponent {
     this.dialogRef.close(this.usernames);
   }
 
-  userGroupShareSubmit(usernames: string[]){
+  userGroupShareSubmit(usernames: string[]) {
     this.dialogRef.close(usernames);
   }
 }
