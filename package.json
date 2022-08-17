@@ -2,12 +2,13 @@
   "name": "frontend-application",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "lint": "ng lint"
+    "ng": "nx",
+    "start": "nx serve",
+    "build": "nx build",
+    "watch": "nx build --watch --configuration development",
+    "test": "nx test",
+    "lint": "nx lint",
+    "postinstall": "node ./decorate-angular-cli.js"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +24,7 @@
     "@angular/platform-browser": "^14.1.2",
     "@angular/platform-browser-dynamic": "^14.1.2",
     "@angular/router": "^14.1.2",
+    "@nrwl/angular": "^14.5.6",
     "@swimlane/ngx-charts": "^19.2.0",
     "@types/jwt-decode": "^3.1.0",
     "angular-gauge": "^4.0.0",
@@ -31,8 +33,9 @@
     "eslint-config-standard": "^17.0.0",
     "jquery": "^3.6.0",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.4",
     "ngx-echarts": "^8.0.1",
-    "node-sass": "^7.0.1",
+    "node-sass": "6.0",
     "popper.js": "^1.16.1",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
@@ -40,13 +43,14 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.1.2",
-    "@angular-eslint/builder": "14.0.2",
     "@angular-eslint/eslint-plugin": "14.0.2",
     "@angular-eslint/eslint-plugin-template": "14.0.2",
-    "@angular-eslint/schematics": "14.0.2",
     "@angular-eslint/template-parser": "14.0.2",
     "@angular/cli": "^14.1.2",
     "@angular/compiler-cli": "^14.1.2",
+    "@nrwl/eslint-plugin-nx": "14.5.6",
+    "@nrwl/linter": "14.5.6",
+    "@nrwl/workspace": "14.5.6",
     "@types/d3-scale": "^4.0.2",
     "@types/d3-selection": "^3.0.2",
     "@types/jasmine": "~3.10.0",
@@ -54,6 +58,7 @@
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.29.0",
     "eslint": "^8.22.0",
+    "eslint-config-prettier": "8.1.0",
     "eslint-config-standard-with-typescript": "^22.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.2.4",
@@ -64,6 +69,8 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "nx": "14.5.6",
+    "prettier": "^2.6.2",
     "typescript": "^4.7.4"
   }
 }
