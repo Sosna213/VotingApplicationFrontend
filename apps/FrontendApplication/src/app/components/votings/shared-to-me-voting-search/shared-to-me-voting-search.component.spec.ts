@@ -8,9 +8,8 @@ describe('SharedToMeVotingSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SharedToMeVotingSearchComponent ]
-    })
-    .compileComponents();
+      declarations: [SharedToMeVotingSearchComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -60,7 +60,7 @@ export class ShareToUserDialogComponent {
       this.users.push(value);
     }
 
-    event.chipInput!.clear();
+    event.chipInput?.clear();
 
     this.userCtrl.setValue(null);
   }

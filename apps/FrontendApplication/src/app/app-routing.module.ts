@@ -1,16 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {HomeComponent} from "./components/home/home.component";
-import {LoginComponent} from "./components/login/login.component";
-import {RegisterComponent} from "./components/register/register.component";
-import {VotingsSearchPanelComponent} from "./components/votings/votings-search-panel/votings-search-panel.component";
-import {VotingInfoComponent} from "./components/votings/voting-info/voting-info.component";
-import {VotingCreateComponent} from "./components/votings/voting-create/voting-create.component";
-import {VotingEditComponent} from "./components/votings/voting-edit/voting-edit.component";
-import {SharedToMeVotingSearchComponent} from "./components/votings/shared-to-me-voting-search/shared-to-me-voting-search.component";
-import {VoteComponent} from "./components/votings/vote/vote.component";
-import {UserGroupSearchComponent} from "./components/user-group/user-group-search/user-group-search.component";
-
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { VotingsSearchPanelComponent } from './components/votings/votings-search-panel/votings-search-panel.component';
+import { VotingInfoComponent } from './components/votings/voting-info/voting-info.component';
+import { VotingCreateComponent } from './components/votings/voting-create/voting-create.component';
+import { VotingEditComponent } from './components/votings/voting-edit/voting-edit.component';
+import { SharedToMeVotingSearchComponent } from './components/votings/shared-to-me-voting-search/shared-to-me-voting-search.component';
+import { VoteComponent } from './components/votings/vote/vote.component';
+import { UserGroupSearchComponent } from './components/user-group/user-group-search/user-group-search.component';
 
 const routes: Routes = [
   {
@@ -56,10 +55,10 @@ const routes: Routes = [
   {
     path: 'user-group-search',
     component: UserGroupSearchComponent,
-  }
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})]
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

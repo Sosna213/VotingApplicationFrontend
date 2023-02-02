@@ -8,9 +8,8 @@ describe('VotingsSearchPanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ VotingsSearchPanelComponent ]
-    })
-    .compileComponents();
+      declarations: [VotingsSearchPanelComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

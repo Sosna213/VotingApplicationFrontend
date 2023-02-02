@@ -8,9 +8,8 @@ describe('ShareByLinkDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShareByLinkDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [ShareByLinkDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

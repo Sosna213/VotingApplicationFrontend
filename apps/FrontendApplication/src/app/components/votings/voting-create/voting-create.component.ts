@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   VotingAdd,
   VotingService,
@@ -19,14 +19,14 @@ export class VotingCreateComponent {
   ) {}
 
   submitHandler(votingToAdd: VotingAdd) {
-    this.votingService.saveVoting(votingToAdd).subscribe(
-      () => {
+    this.votingService.saveVoting(votingToAdd).subscribe({
+      next: () => {
         this.router.navigate(['/voting-search']);
       },
-      (error) => {
+      error: (error) => {
         this.errorSnackBarOpen(error.error.error);
-      }
-    );
+      },
+    });
   }
 
   private errorSnackBarOpen(message: string) {

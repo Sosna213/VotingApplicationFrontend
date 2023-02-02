@@ -8,9 +8,8 @@ describe('UserGroupAddDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserGroupAddDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [UserGroupAddDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

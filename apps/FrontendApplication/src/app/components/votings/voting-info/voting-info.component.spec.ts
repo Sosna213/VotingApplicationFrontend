@@ -8,9 +8,8 @@ describe('VotingInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ VotingInfoComponent ]
-    })
-    .compileComponents();
+      declarations: [VotingInfoComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

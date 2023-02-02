@@ -76,12 +76,7 @@ export class VotingInfoComponent implements OnInit {
         if (this.usernamesToAdd != null) {
           this.votingService
             .shareVotingToUser(this.usernamesToAdd, this.votingInfo.votingId)
-            .subscribe(
-              (result) => {},
-              (error) => {
-                console.log(error);
-              }
-            );
+            .subscribe();
         }
       });
     } else {
@@ -107,7 +102,7 @@ export class VotingInfoComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result != null) {
         this.votingService.deleteVotingById(result.votingId).subscribe(
-          (result) => {
+          () => {
             this.router.navigate(['voting-search']);
           },
           (error) => {
@@ -120,7 +115,7 @@ export class VotingInfoComponent implements OnInit {
 
   deactivate() {
     this.votingService.deactivateVoting(this.votingInfo.votingId).subscribe(
-      (result) => {
+      () => {
         location.reload();
       },
       (error) => {

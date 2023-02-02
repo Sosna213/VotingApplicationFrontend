@@ -1,17 +1,19 @@
-import {UntypedFormGroup} from "@angular/forms";
+import { UntypedFormGroup } from '@angular/forms';
 
-export function PasswordMatchValidator(controlName: string, matchingControlName: string) {
-  return (formGroup: UntypedFormGroup) =>{
+export function PasswordMatchValidator(
+  controlName: string,
+  matchingControlName: string
+) {
+  return (formGroup: UntypedFormGroup) => {
     const control = formGroup.controls[controlName];
-    const  matchingControl = formGroup.controls[matchingControlName];
-    // @ts-ignore
-    if(matchingControl.errors && !matchingControl.errors.passwordNotEqual){
+    const matchingControl = formGroup.controls[matchingControlName];
+    if (matchingControl.errors && !matchingControl.errors['passwordNotEqual']) {
       return;
     }
-    if(control.value !== matchingControl.value){
-      matchingControl.setErrors({passwordNotEqual: true});
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ passwordNotEqual: true });
     } else {
       matchingControl.setErrors(null);
     }
-  }
+  };
 }

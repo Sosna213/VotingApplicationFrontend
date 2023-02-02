@@ -1,7 +1,10 @@
-import {AbstractControl, ValidationErrors, ValidatorFn} from "@angular/forms";
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function RegexValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
-  return (control: AbstractControl): { [p: string]: any } | null => {
+export function RegexValidator(
+  regex: RegExp,
+  error: ValidationErrors
+): ValidatorFn {
+  return (control: AbstractControl): { [p: string]: boolean } | null => {
     if (!control.value) {
       return null;
     }

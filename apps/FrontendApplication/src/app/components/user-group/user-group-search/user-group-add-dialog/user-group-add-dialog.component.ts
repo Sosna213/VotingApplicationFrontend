@@ -1,30 +1,32 @@
-import {Component, ElementRef, Inject,ViewChild} from '@angular/core';
-import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {UntypedFormBuilder, UntypedFormControl, Validators} from "@angular/forms";
-import {Observable, map, startWith} from "rxjs";
-import {UserService} from "../../../../services/user/user.service";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {MatChipInputEvent} from "@angular/material/chips";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {UserGroupAdd} from "../../../../services/user-group/user-group.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  Validators,
+} from '@angular/forms';
+import { Observable, map, startWith } from 'rxjs';
+import { UserService } from '../../../../services/user/user.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { UserGroupAdd } from '../../../../services/user-group/user-group.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-group-add-dialog',
   templateUrl: './user-group-add-dialog.component.html',
-  styleUrls: ['./user-group-add-dialog.component.css']
+  styleUrls: ['./user-group-add-dialog.component.css'],
 })
 export class UserGroupAddDialogComponent {
-
   separatorKeysCodes: number[] = [ENTER, COMMA];
   userCtrl = new UntypedFormControl();
   filteredUsers!: Observable<string[]>;
   users: string[] = [];
   allUsers: string[] = [];
 
-
   userGroupForm = this.formBuilder.group({
-    userGroupName: [null, Validators.required]
+    userGroupName: [null, Validators.required],
   });
 
   constructor(
@@ -32,20 +34,30 @@ export class UserGroupAddDialogComponent {
     public formBuilder: UntypedFormBuilder,
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<UserGroupAddDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public userGroup: {userGroupInfo: UserGroupAdd,userGroupName: string, usernames: string[], mode: string},
+    @Inject(MAT_DIALOG_DATA)
+    public userGroup: {
+      userGroupInfo: UserGroupAdd;
+      userGroupName: string;
+      usernames: string[];
+      mode: string;
+    }
   ) {
     this.userGroup.userGroupInfo = <UserGroupAdd>{};
-    if(this.userGroup.mode === "edit"){
+    if (this.userGroup.mode === 'edit') {
       this.users = this.userGroup.usernames;
-      this.userGroupForm.controls['userGroupName'].setValue(this.userGroup.userGroupName);
+      this.userGroupForm.controls['userGroupName'].setValue(
+        this.userGroup.userGroupName
+      );
     }
     this.filteredUsers = this.userCtrl.valueChanges.pipe(
       startWith(null),
-      map((user: string | null) => (user ? this._filter(user) : this.allUsers.slice())),
+      map((user: string | null) =>
+        user ? this._filter(user) : this.allUsers.slice()
+      )
     );
-    this.userService.getUsernames().subscribe(result => {
-      this.allUsers = result
-    })
+    this.userService.getUsernames().subscribe((result) => {
+      this.allUsers = result;
+    });
   }
 
   @ViewChild('userInput') userInput!: ElementRef<HTMLInputElement>;
@@ -61,7 +73,7 @@ export class UserGroupAddDialogComponent {
       this.users.push(value);
     }
 
-    event.chipInput!.clear();
+    event.chipInput?.clear();
 
     this.userCtrl.setValue(null);
   }
@@ -83,21 +95,26 @@ export class UserGroupAddDialogComponent {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allUsers.filter(user => user.toLowerCase().includes(filterValue));
+    return this.allUsers.filter((user) =>
+      user.toLowerCase().includes(filterValue)
+    );
   }
-  onSubmit(){
+
+  onSubmit() {
     this.userGroup.userGroupInfo.usernames = this.users;
-    this.userGroup.userGroupInfo.userGroupName = this.userGroupForm.controls['userGroupName'].value;
-    if(this.userGroupForm.valid){
+    this.userGroup.userGroupInfo.userGroupName =
+      this.userGroupForm.controls['userGroupName'].value;
+    if (this.userGroupForm.valid) {
       this.dialogRef.close(this.userGroup.userGroupInfo);
     } else {
-      this.errorSnackBarOpen("Nieprawidłowe dane");
+      this.errorSnackBarOpen('Nieprawidłowe dane');
     }
   }
+
   private errorSnackBarOpen(message: string) {
-    this.snackBar.open(message, "Zamknij", {
+    this.snackBar.open(message, 'Zamknij', {
       duration: 3 * 1000,
-      horizontalPosition: "right"
+      horizontalPosition: 'right',
     });
   }
 }
