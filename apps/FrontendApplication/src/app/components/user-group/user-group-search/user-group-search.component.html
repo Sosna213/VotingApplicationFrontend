@@ -1,4 +1,4 @@
-<div class="col-8 offset-2" *ngIf="userGroupInfos.length != 0">
+<div class="col-8 offset-2" *ngIf="userGroupInfos && userGroupInfos.length != 0">
   <div class="text-align-center pt-4 pb-3">
     <span class="title-text-font">Twoje grupy użytkowników:</span>
   </div>
@@ -24,7 +24,7 @@
     <button class="mt-3" mat-flat-button color="primary" (click)="openCreateUserGroupDialog()">Dodaj</button>
   </mat-card>
 </div>
-<div class="col-8 offset-2" *ngIf="userGroupInfos.length === 0">
+<div class="col-8 offset-2" *ngIf="userGroupInfos && userGroupInfos.length === 0">
   <div class="text-align-center pt-3">
     <mat-card>
       <div>
@@ -39,6 +39,6 @@
     </mat-card>
   </div>
 </div>
-<footer *ngIf="userGroupInfos.length === 0" class="page-footer">
+<footer *ngIf="userGroupInfos && userGroupInfos.length === 0" class="page-footer">
   <a class="ml-3" href="https://storyset.com/data">Data illustrations by Storyset</a>
 </footer>

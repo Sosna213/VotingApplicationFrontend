@@ -63,20 +63,23 @@ export class VotingFormComponent implements OnInit {
     ) {
       this.tribe = 'edit';
       const votingId = this.activatedRoute.snapshot.paramMap.get('votingId');
-      this.votingService.getVotingWithAnswers(votingId).subscribe((data) => {
-        this.votingData = data;
-        this.votingForm.controls['votingName'].setValue(data.votingName);
-        this.votingForm.controls['restricted']?.setValue(data.restricted);
-        const date = new Date(data.endDate);
-        this.votingForm.controls['endDate']?.setValue(date);
-        this.votingForm.controls['limitedInTime'].setValue(true);
-        this.votingForm.controls['votingName'].setValue(data.votingName);
-        this.votingForm.controls['explicit'].setValue(data.explicit);
-        this.votingForm.controls['question'].setValue(data.question);
-        data.answers.forEach((answer) => {
-          this.answers().push(this.newAnswerWithData(answer.answer));
+      const votingIdNumber = votingId ? +votingId : NaN;
+      this.votingService
+        .getVotingWithAnswers(votingIdNumber)
+        .subscribe((data) => {
+          this.votingData = data;
+          this.votingForm.controls['votingName'].setValue(data.votingName);
+          this.votingForm.controls['restricted']?.setValue(data.restricted);
+          const date = new Date(data.endDate);
+          this.votingForm.controls['endDate']?.setValue(date);
+          this.votingForm.controls['limitedInTime'].setValue(true);
+          this.votingForm.controls['votingName'].setValue(data.votingName);
+          this.votingForm.controls['explicit'].setValue(data.explicit);
+          this.votingForm.controls['question'].setValue(data.question);
+          data.answers.forEach((answer) => {
+            this.answers().push(this.newAnswerWithData(answer.answer));
+          });
         });
-      });
     } else {
       this.addAnswer();
       this.tribe = 'add';

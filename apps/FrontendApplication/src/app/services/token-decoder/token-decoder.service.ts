@@ -16,7 +16,7 @@ export class TokenDecoderService {
   constructor(private localStorageService: LocalStorageService) {
   }
 
-  public getUserIdFromToken(): string {
+  public getUsernameFromToken(): string {
     const token = this.localStorageService.getItem('token');
     const decoded: DecodedToken = jwt_decode(token);
     return decoded.sub;

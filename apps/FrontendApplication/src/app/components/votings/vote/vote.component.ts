@@ -46,7 +46,7 @@ export class VoteComponent implements OnInit {
     const vote: Vote = {
       votingId: this.votingInfo.votingId,
       answerId: this.answerVotedId,
-      userId: this.decoder.getUserIdFromToken()
+      username: this.decoder.getUsernameFromToken()
     }
     this.votingService.vote(vote)
       .subscribe(result=>{

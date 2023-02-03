@@ -5,8 +5,8 @@ import {LocalStorageService} from "../local-storage/local-storage.service";
 import {Observable, catchError, tap, throwError} from "rxjs";
 
 interface LoginResponse {
-  access_token: string;
-  refresh_token: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 
@@ -19,32 +19,20 @@ export class AuthService {
     private localStorageService: LocalStorageService) {
   }
 
+
   public loginUser(url: string, userLoginData: UserLoginModel): Observable<LoginResponse> {
-
-    const body = JSON.stringify(userLoginData);
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json');
-
-    return this.http.post<LoginResponse>('/login', body, {
-      headers,
-      withCredentials: true
-    })
-      .pipe(
-        catchError((err => {
-          console.error(err);
-          return throwError(err);
-        }))
-      );
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<LoginResponse>(`/login?username=${userLoginData.username}&password=${userLoginData.password}`,  { headers: headers });
   }
 
-  refreshToken(): Observable<{ access_token: string; refresh_token: string }> {
+  refreshToken(): Observable<{ accessToken: string; refreshToken: string }> {
     const refreshToken = this.localStorageService.getItem('refreshToken');
     const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json');
-    return this.http.post<{access_token: string; refresh_token: string}>("token-refresh", refreshToken, {headers}).pipe(
+      .set('Content-Type', 'application/x-www-form-urlencoded');
+    return this.http.post<{accessToken: string; refreshToken: string}>("token-refresh", refreshToken, {headers}).pipe(
       tap(response => {
-        this.setToken('token', response.access_token);
-        this.setToken('refreshToken', response.refresh_token);
+        this.setToken('token', response.accessToken);
+        this.setToken('refreshToken', response.refreshToken);
       })
     );
   }

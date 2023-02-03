@@ -17,9 +17,9 @@ export class UserService {
   public getActiveUserId(): Observable<number>{
 
     const userId = new Subject<number>()
-    const userKcId = this.tokenDecoder.getUserIdFromToken();
+    const username = this.tokenDecoder.getUsernameFromToken();
 
-    this.http.get<number>(`/userId/${userKcId}`)
+    this.http.get<number>(`/userId/${username}`)
       .subscribe(response =>{
         userId.next(response);
         return userId;

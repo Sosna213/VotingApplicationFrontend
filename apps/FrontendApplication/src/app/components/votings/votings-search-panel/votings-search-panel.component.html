@@ -1,4 +1,4 @@
-<div *ngIf="votingList.length != 0" class="col-8 offset-2">
+<div *ngIf="votingList && votingList.length != 0" class="col-8 offset-2">
 
   <div class="text-align-center pt-4 pb-3">
     <span class="title-text-font">Twoje głosowania:</span>
@@ -62,7 +62,7 @@
     </li>
   </ul>
 </div>
-<div class="col-8 offset-2" *ngIf="votingList.length === 0">
+<div class="col-8 offset-2" *ngIf="votingList && votingList.length === 0">
   <div class="text-align-center pt-3">
     <mat-card>
       <div>
@@ -75,6 +75,6 @@
     </mat-card>
   </div>
 </div>
-<footer *ngIf="votingList.length === 0" class="page-footer">
+<footer *ngIf="votingList && votingList.length === 0" class="page-footer">
   <a class="ml-3" href="https://storyset.com/data">Data illustrations by Storyset</a>
 </footer>
