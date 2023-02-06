@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {
   VotingService,
-  VotingShared,
 } from '../../../services/voting/voting.service';
 import { Router } from '@angular/router';
+import {VotingShared} from "../voting.types";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-shared-to-me-voting-search',
@@ -21,14 +22,12 @@ export class SharedToMeVotingSearchComponent implements OnInit {
     'explicit',
   ];
   clickedRows = new Set<VotingShared>();
-  public votingList!: VotingShared[];
+  public votingList$!: Observable<VotingShared[]>;
 
   constructor(private votingService: VotingService, private router: Router) {}
 
   ngOnInit(): void {
-    this.votingService.getSharedToMeVoting().subscribe((data) => {
-      this.votingList = data;
-    });
+    this.votingList$ = this.votingService.getSharedToMeVoting();
   }
 
   public redirectToVote(votingId: number) {

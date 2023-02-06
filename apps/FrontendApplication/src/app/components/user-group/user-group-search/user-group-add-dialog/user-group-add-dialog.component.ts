@@ -10,8 +10,8 @@ import { UserService } from '../../../../services/user/user.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { UserGroupAdd } from '../../../../services/user-group/user-group.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserGroupAdd } from '../../user-group.types';
 
 @Component({
   selector: 'app-user-group-add-dialog',
@@ -62,11 +62,7 @@ export class UserGroupAddDialogComponent {
 
   @ViewChild('userInput') userInput!: ElementRef<HTMLInputElement>;
 
-  onNoClick(): void {
-    this.dialogRef.close(null);
-  }
-
-  add(event: MatChipInputEvent): void {
+  add(event: MatChipInputEvent) {
     const value = (event.value || '').trim();
 
     if (this.allUsers.includes(value)) {
@@ -78,7 +74,22 @@ export class UserGroupAddDialogComponent {
     this.userCtrl.setValue(null);
   }
 
-  remove(user: string): void {
+  onNoClick() {
+    this.dialogRef.close(null);
+  }
+
+  onSubmit() {
+    this.userGroup.userGroupInfo.usernames = this.users;
+    this.userGroup.userGroupInfo.userGroupName =
+      this.userGroupForm.controls['userGroupName'].value;
+    if (this.userGroupForm.valid) {
+      this.dialogRef.close(this.userGroup.userGroupInfo);
+    } else {
+      this.errorSnackBarOpen('Nieprawidłowe dane');
+    }
+  }
+
+  remove(user: string) {
     const index = this.users.indexOf(user);
 
     if (index >= 0) {
@@ -98,17 +109,6 @@ export class UserGroupAddDialogComponent {
     return this.allUsers.filter((user) =>
       user.toLowerCase().includes(filterValue)
     );
-  }
-
-  onSubmit() {
-    this.userGroup.userGroupInfo.usernames = this.users;
-    this.userGroup.userGroupInfo.userGroupName =
-      this.userGroupForm.controls['userGroupName'].value;
-    if (this.userGroupForm.valid) {
-      this.dialogRef.close(this.userGroup.userGroupInfo);
-    } else {
-      this.errorSnackBarOpen('Nieprawidłowe dane');
-    }
   }
 
   private errorSnackBarOpen(message: string) {

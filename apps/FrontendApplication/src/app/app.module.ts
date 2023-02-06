@@ -55,6 +55,7 @@ import { ShareToUserGroupComponent } from './components/votings/voting-info/shar
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ShareByLinkDialogComponent } from './components/votings/voting-info/share-by-link-dialog/share-by-link-dialog.component';
 import { TokenInterceptorService } from './services/token-interceptor/token-interceptor.service';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { TokenInterceptorService } from './services/token-interceptor/token-inte
     PieChartModule,
     MatExpansionModule,
     MatGridListModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     {

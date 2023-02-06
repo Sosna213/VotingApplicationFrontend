@@ -1,5 +1,4 @@
 <div class="container pt-5">
-
   <form [formGroup]="votingForm" (ngSubmit)="onSubmit()">
     <mat-card>
       <mat-card-header class="pb-3 pt-2">
@@ -7,7 +6,7 @@
         <mat-card-title class="title-text-font" *ngIf="tribe === 'add'">Dodaj głosowanie</mat-card-title>
       </mat-card-header>
       <div class="row">
-        <mat-checkbox [disabled]="votingExplicitChange()" style="width: 20%" class="pb-3" formControlName="restricted">
+        <mat-checkbox style="width: 20%" class="pb-3" formControlName="restricted">
           Ograniczone do zaproszonch
         </mat-checkbox>
         <mat-checkbox style="width: 10%" class="pb-3" formControlName="explicit">Jawne</mat-checkbox>
@@ -34,7 +33,7 @@
 
       <div formArrayName="answers">
         <br>
-        <div *ngFor="let answer of answers().controls; let i=index" [formGroupName]="i">
+        <div *ngFor="let answer of getAnswers().controls; let i=index" [formGroupName]="i">
           <div class="pb-3">
               <span>
                 Odpowiedz nr {{i + 1}}:

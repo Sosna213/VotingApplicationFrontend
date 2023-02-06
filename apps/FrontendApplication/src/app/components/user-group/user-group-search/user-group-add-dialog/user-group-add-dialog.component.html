@@ -1,6 +1,5 @@
 <div mat-dialog-content>
   <p>Utwórz grupę użytkowników:</p>
-
   <form [formGroup]="userGroupForm" (ngSubmit)="onSubmit()">
     <mat-card>
       <mat-card-header>
@@ -24,7 +23,6 @@
           </mat-chip>
           <input
             placeholder="Nazwa użytkownika..."
-
             #userInput
             [formControl]="userCtrl"
             [matAutocomplete]="auto"
@@ -37,11 +35,9 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-
-
       <div class="text-align-right">
         <button mat-button (click)="onNoClick()">Anuluj</button>
-        <button mat-button (click)="onSubmit()" cdkFocusInitial>Dodaj</button>
+        <button mat-button (click)="onSubmit()">Dodaj</button>
       </div>
     </mat-card>
   </form>

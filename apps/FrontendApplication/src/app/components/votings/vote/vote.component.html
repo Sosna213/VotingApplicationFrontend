@@ -1,4 +1,4 @@
-<ng-container *ngIf="votingInfo">
+<ng-container *ngIf="votingInfo$ | async as votingInfo">
   <div class="col-8 offset-2 pt-3">
     <mat-card>
       <mat-list>
@@ -29,7 +29,7 @@
         </div>
       </mat-list>
       <div class="text-align-right">
-        <button class="button-margin" mat-flat-button color="primary" (click)="vote()">Zagłosuj</button>
+        <button class="button-margin" mat-flat-button color="primary" (click)="vote(votingInfo.votingId)">Zagłosuj</button>
       </div>
     </mat-card>
   </div>

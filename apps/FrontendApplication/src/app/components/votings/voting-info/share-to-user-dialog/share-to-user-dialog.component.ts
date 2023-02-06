@@ -55,11 +55,9 @@ export class ShareToUserDialogComponent {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-
     if (this.allUsers.includes(value)) {
       this.users.push(value);
     }
-
     event.chipInput?.clear();
 
     this.userCtrl.setValue(null);

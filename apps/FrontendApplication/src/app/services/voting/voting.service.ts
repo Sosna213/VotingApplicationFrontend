@@ -1,147 +1,79 @@
-import {Injectable} from '@angular/core';
-import {TokenDecoderService} from "../token-decoder/token-decoder.service";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, Subject} from "rxjs";
-
-
-export interface Voting {
-  votingId: number;
-  votingName: string;
-  restricted: boolean;
-  active: boolean;
-  explicit: boolean;
-  endDate: Date;
-  question: string;
-}
-
-export type Vote = {
-  votingId: number;
-  answerId: number;
-  username: string;
-}
-export type Answer = {
-  answerId: number;
-  answer: string;
-}
-
-export interface VotingInfo {
-  votingId: number;
-  votingName: string;
-  restricted: boolean;
-  active: boolean;
-  explicit: boolean;
-  endDate: string;
-  question: string;
-  answers: Answer[];
-}
-
-export type VotingToken = {
-  token: string;
-}
-
-export type VotingAdd = {
-  userId: number;
-  votingName: string;
-  restricted: boolean;
-  explicit: boolean;
-  endDate: Date;
-  question: string;
-  answers: string[];
-}
-export type VotingShared = {
-  votingDTO: Voting;
-  voted: boolean;
-}
-export type VotingResult = {
-  answerId: number
-  name: string;
-  value: number;
-  usernames: string[];
-}
+import { Injectable } from '@angular/core';
+import { TokenDecoderService } from '../token-decoder/token-decoder.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import {
+  Vote,
+  Voting,
+  VotingAdd,
+  VotingInfo,
+  VotingResult,
+  VotingShared,
+  VotingToken,
+} from '../../components/votings/voting.types';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VotingService {
-
   userId!: number;
 
-  constructor(private decoder: TokenDecoderService, private http: HttpClient) {
+  constructor(private decoder: TokenDecoderService, private http: HttpClient) {}
+
+  deactivateVoting(votingId: number): Observable<unknown> {
+    return this.http.put(`/deactivate-voting/${votingId}`, {});
   }
 
-  public getVotingListForUser(): Observable<Voting[]> {
+  deleteVotingById(votingId: number): Observable<unknown> {
+    return this.http.delete(`/voting/delete/${votingId}`);
+  }
+
+  getSharedToMeVoting(): Observable<VotingShared[]> {
+    const username = this.decoder.getUsernameFromToken();
+    return this.http.get<VotingShared[]>(`/votingSharedToUser/${username}`);
+  }
+
+  editVoting(votingToEdit: VotingInfo): Observable<unknown> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(votingToEdit);
+    return this.http.put('/voting-edit', body, { headers });
+  }
+
+  getVotingListForUser(): Observable<Voting[]> {
     const username = this.decoder.getUsernameFromToken();
     return this.http.get<Voting[]>(`/voting/forUser/${username}`);
   }
 
-  public getVotingWithAnswers(votingId: number): Observable<VotingInfo> {
-    const votingInfo = new Subject<VotingInfo>();
-    this.http.get<VotingInfo>(`/voting/${votingId}`)
-      .subscribe(returned => {
-        votingInfo.next(returned);
-        return votingInfo;
-      }, error => {
-        console.log(error);
-      })
-    return votingInfo;
-  }
-
-  public saveVoting(votingToSave: VotingAdd): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json');
-    const body = JSON.stringify(votingToSave);
-    return this.http.post("/voting/add", body, {headers});
-  }
-
-  public deleteVotingById(votingId: number) {
-    return this.http.delete(`/voting/delete/${votingId}`);
-  }
-
-  public editVoting(votingToEdit: VotingInfo) {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json');
-    const body = JSON.stringify(votingToEdit);
-    return this.http.put("/voting-edit", body, {headers});
-  }
-
-  public shareVotingToUser(usernames: string[], votingId: number) {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json');
-    const body = {
-      usernames: usernames,
-      votingId: votingId
-    };
-    return this.http.post("/shareToUsers", JSON.stringify(body), {headers});
-  }
-
-  public getSharedToMeVoting() {
-    const username = this.decoder.getUsernameFromToken();
-    const votingList = new Subject<VotingShared[]>();
-    this.http.get<VotingShared[]>(`/votingSharedToUser/${username}`)
-      .subscribe(returned => {
-        votingList.next(returned);
-        return votingList;
-      }, error => {
-        console.log(error);
-      });
-    return votingList;
-  }
-
-  public vote(vote: Vote) {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json');
-    const body = JSON.stringify(vote);
-    return this.http.post("/vote", body, {headers});
-  }
-
-  public deactivateVoting(votingId: number) {
-    return this.http.put(`/deactivate-voting/${votingId}`, {});
-  }
-
-  public getVotingResultForVoting(votingId: number): Observable<VotingResult[]> {
+  getVotingResultForVoting(votingId: number): Observable<VotingResult[]> {
     return this.http.get<VotingResult[]>(`/voting-result/${votingId}`);
   }
-  public getVotingToken(votingId: number): Observable<VotingToken>{
+
+  getVotingToken(votingId: number): Observable<VotingToken> {
     return this.http.get<VotingToken>(`/voting/get-token/${votingId}`);
+  }
+
+  getVotingWithAnswers(votingId: number | string): Observable<VotingInfo> {
+    return this.http.get<VotingInfo>(`/voting/${votingId}`);
+  }
+
+  saveVoting(votingToSave: VotingAdd): Observable<unknown> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(votingToSave);
+    return this.http.post('/voting/add', body, { headers });
+  }
+
+  shareVotingToUser(usernames: string[], votingId: number): Observable<unknown> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = {
+      usernames: usernames,
+      votingId: votingId,
+    };
+    return this.http.post('/shareToUsers', JSON.stringify(body), { headers });
+  }
+
+  vote(vote: Vote): Observable<unknown> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(vote);
+    return this.http.post('/vote', body, { headers });
   }
 }

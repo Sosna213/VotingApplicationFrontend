@@ -15,40 +15,16 @@ export class NavbarComponent {
     private router: Router
   ) {}
 
-  goToLoginPage() {
-    this.router.navigate(['login']);
-  }
-
-  goToHomePage() {
-    this.router.navigate(['']);
-  }
-
-  logout() {
-    this.authService.logout();
-    this.goToHomePage();
-  }
-
-  goToVotingSearchPage() {
-    this.router.navigate(['voting-search']);
-  }
-
-  goToRegisterPage() {
-    this.router.navigate(['register']);
-  }
-
   isLoggedIn(): boolean {
     return this.localStorageService.isLoggedIn();
   }
 
-  goToVotingSharedToMe() {
-    this.router.navigate(['voting-shared-to-me']);
+  logout() {
+    this.authService.logout();
+    this.navigate('');
   }
 
-  goToUserGroupSearch() {
-    this.router.navigate(['user-group-search']);
-  }
-
-  goToCreateVotingPage() {
-    this.router.navigate(['create-voting']);
+  navigate(route: string) {
+    this.router.navigate([route]);
   }
 }

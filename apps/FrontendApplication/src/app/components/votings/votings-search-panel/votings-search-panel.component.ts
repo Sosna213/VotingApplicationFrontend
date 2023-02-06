@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Voting, VotingService } from '../../../services/voting/voting.service';
+import { VotingService } from '../../../services/voting/voting.service';
 import { Router } from '@angular/router';
+import {Voting} from "../voting.types";
 
 @Component({
   selector: 'app-votings-search-panel',

@@ -1,11 +1,12 @@
 import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {Observable, map, startWith} from "rxjs";
 import {UserService} from "../../../../../services/user/user.service";
-import {UserGroupInfo, UserGroupService} from "../../../../../services/user-group/user-group.service";
+import {UserGroupService} from "../../../../../services/user-group/user-group.service";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {UntypedFormControl} from "@angular/forms";
+import {UserGroupInfo} from "../../../../user-group/user-group.types";
 
 @Component({
   selector: 'app-share-to-user-group',

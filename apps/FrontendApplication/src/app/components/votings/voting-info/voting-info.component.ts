@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  VotingInfo,
-  VotingResult,
-  VotingService,
-  VotingToken,
-} from '../../../services/voting/voting.service';
+import { VotingService } from '../../../services/voting/voting.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ShareToUserDialogComponent } from './share-to-user-dialog/share-to-user-dialog.component';
 import { DeleteVotingModalComponent } from './delete-voting-modal/delete-voting-modal.component';
 import { ShareByLinkDialogComponent } from './share-by-link-dialog/share-by-link-dialog.component';
+import {
+  VotingInfo,
+  VotingResult,
+  VotingToken,
+} from '../voting.types';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-voting-info',
@@ -17,13 +18,13 @@ import { ShareByLinkDialogComponent } from './share-by-link-dialog/share-by-link
   styleUrls: ['./voting-info.component.css'],
 })
 export class VotingInfoComponent implements OnInit {
-  votingInfo!: VotingInfo;
+  votingInfo$!: Observable<VotingInfo>;
   legendPosition = 'below';
   usernamesToAdd: string[] = [];
   votingResult: VotingResult[] = [];
   resultVisible = false;
   totalOfAnswers = 0;
-  votingId: any;
+  votingId!: number;
   votingToken!: VotingToken;
 
   constructor(
@@ -35,12 +36,9 @@ export class VotingInfoComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.activatedRoute.snapshot.routeConfig?.path === 'voting/:votingId') {
-      this.votingId = this.activatedRoute.snapshot.paramMap.get('votingId');
-      this.votingService
-        .getVotingWithAnswers(this.votingId)
-        .subscribe((data) => {
-          this.votingInfo = data;
-        });
+      const id = this.activatedRoute.snapshot.paramMap.get('votingId');
+      this.votingId = id ? +id : NaN;
+      this.votingInfo$ = this.votingService.getVotingWithAnswers(this.votingId);
       this.votingService
         .getVotingResultForVoting(this.votingId)
         .subscribe((result) => {
@@ -64,8 +62,8 @@ export class VotingInfoComponent implements OnInit {
     return votingResultForAnswer;
   }
 
-  openShareVotingDialog(): void {
-    if (this.votingInfo.restricted) {
+  openShareVotingDialog(votingInfo: VotingInfo): void {
+    if (votingInfo.restricted) {
       const dialogRef = this.dialog.open(ShareToUserDialogComponent, {
         width: '700px',
         data: { usernames: this.usernamesToAdd },
@@ -75,7 +73,7 @@ export class VotingInfoComponent implements OnInit {
         this.usernamesToAdd = result;
         if (this.usernamesToAdd != null) {
           this.votingService
-            .shareVotingToUser(this.usernamesToAdd, this.votingInfo.votingId)
+            .shareVotingToUser(this.usernamesToAdd, votingInfo.votingId)
             .subscribe();
         }
       });
@@ -89,8 +87,8 @@ export class VotingInfoComponent implements OnInit {
     }
   }
 
-  gotToVotingEditPage() {
-    this.router.navigate(['edit-voting', this.votingInfo.votingId]);
+  gotToVotingEditPage(votingInfo: VotingInfo) {
+    this.router.navigate(['edit-voting', votingInfo.votingId]);
   }
 
   deleteVoting(votingId: number) {
@@ -113,13 +111,13 @@ export class VotingInfoComponent implements OnInit {
     });
   }
 
-  deactivate() {
-    this.votingService.deactivateVoting(this.votingInfo.votingId).subscribe(
+  deactivate(votingInfo: VotingInfo) {
+    this.votingService.deactivateVoting(votingInfo.votingId).subscribe(
       () => {
         location.reload();
       },
       (error) => {
-        console.log(error);
+        console.error(error);
       }
     );
   }

@@ -13,15 +13,15 @@ export class HomeComponent {
     private router: Router
   ) {}
 
-  isLoggedIn(): boolean {
-    return this.localStorageService.isLoggedIn();
+  goToCreateVotingPage() {
+    this.router.navigate(['create-voting']);
   }
 
   goToRegisterPage() {
     this.router.navigate(['register']);
   }
 
-  goToCreateVotingPage() {
-    this.router.navigate(['create-voting']);
+  isLoggedIn(): boolean {
+    return this.localStorageService.isLoggedIn();
   }
 }

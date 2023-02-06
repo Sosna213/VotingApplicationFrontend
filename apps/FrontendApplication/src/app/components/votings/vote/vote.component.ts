@@ -1,63 +1,78 @@
 import { Component, OnInit } from '@angular/core';
-import {Vote, VotingInfo, VotingService} from "../../../services/voting/voting.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {DecodedToken, TokenDecoderService} from "../../../services/token-decoder/token-decoder.service";
-import jwt_decode from "jwt-decode";
-import {LocalStorageService} from "../../../services/local-storage/local-storage.service";
+import { VotingService } from '../../../services/voting/voting.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  DecodedToken,
+  TokenDecoderService,
+} from '../../../services/token-decoder/token-decoder.service';
+import jwt_decode from 'jwt-decode';
+import { LocalStorageService } from '../../../services/local-storage/local-storage.service';
+import { Vote, VotingInfo } from '../voting.types';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-vote',
   templateUrl: './vote.component.html',
-  styleUrls: ['./vote.component.css']
+  styleUrls: ['./vote.component.css'],
 })
 export class VoteComponent implements OnInit {
-
-  votingInfo!: VotingInfo;
+  votingInfo$!: Observable<VotingInfo>;
   answerVotedId!: number;
   username!: string;
 
-  constructor(private votingService: VotingService,
-              private decoder: TokenDecoderService,
-              private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private localstorage: LocalStorageService) { }
+  constructor(
+    private votingService: VotingService,
+    private decoder: TokenDecoderService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private localstorage: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
     if (this.activatedRoute.snapshot.routeConfig?.path === 'vote/:votingId') {
-      let votingId: any;
-      votingId = this.activatedRoute.snapshot.paramMap.get('votingId');
-      this.votingService.getVotingWithAnswers(votingId).subscribe(data=>{
-        this.votingInfo = data;
-      });
-    } else if(this.activatedRoute.snapshot.routeConfig?.path === 'vote/token/:token'){
-      let token: any;
-      token = this.activatedRoute.snapshot.paramMap.get('token');
-      const decoded: DecodedToken = jwt_decode(token);
-      if(!(this.localstorage.getItem("votingToken") === token)){
-        if(!this.localstorage.checkIfTokenExpired(token)){
-          this.votingService.getVotingWithAnswers(parseInt(decoded.sub)).subscribe(data=>{
-            this.votingInfo = data;
-          });
+      const votingId = this.activatedRoute.snapshot.paramMap.get('votingId');
+      if (votingId) {
+        this.votingInfo$ = this.votingService.getVotingWithAnswers(votingId);
+      }
+    } else if (
+      this.activatedRoute.snapshot.routeConfig?.path === 'vote/token/:token'
+    ) {
+      const token = this.activatedRoute.snapshot.paramMap.get('token');
+      if (token) {
+        const decoded: DecodedToken = jwt_decode(token);
+        if (
+          !(this.localstorage.getItem('votingToken') === token) &&
+          !this.localstorage.checkIfTokenExpired(decoded)
+        ) {
+          this.votingInfo$ = this.votingService.getVotingWithAnswers(
+            parseInt(decoded.sub)
+          );
         }
       }
     }
   }
-  vote(){
+
+  vote(votingId: number) {
     const vote: Vote = {
-      votingId: this.votingInfo.votingId,
+      votingId: votingId,
       answerId: this.answerVotedId,
-      username: this.decoder.getUsernameFromToken()
-    }
-    this.votingService.vote(vote)
-      .subscribe(result=>{
-        if(this.activatedRoute.snapshot.routeConfig?.path === 'vote/token/:token'){
+      username: this.decoder.getUsernameFromToken(),
+    };
+    this.votingService.vote(vote).subscribe({
+      next: () => {
+        if (
+          this.activatedRoute.snapshot.routeConfig?.path === 'vote/token/:token'
+        ) {
           const token = this.activatedRoute.snapshot.paramMap.get('token');
-          this.localstorage.setItem("votingToken", token);
+          if (token) {
+            this.localstorage.setItem('votingToken', token);
+          }
         }
-      this.router.navigate(['voting-shared-to-me']);
-    }, error=>{
-      console.log(error);
+        this.router.navigate(['voting-shared-to-me']);
+      },
+      error: (error) => {
+        console.error(error);
+      },
     });
   }
-
 }

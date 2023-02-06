@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {
-  VotingInfo,
   VotingService,
 } from '../../../services/voting/voting.service';
 import { Router } from '@angular/router';
+import {VotingInfo} from "../voting.types";
 
 @Component({
   selector: 'app-voting-edit',
@@ -21,7 +21,7 @@ export class VotingEditComponent {
         this.router.navigate(['/voting-search']);
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
       },
     });
   }

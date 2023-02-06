@@ -1,5 +1,5 @@
-<div class="col-8 offset-2">
-  <div *ngIf="votingList && votingList.length != 0">
+<ng-container *ngIf="votingList$| async as votingList; else loading">
+  <div class="col-8 offset-2" *ngIf="votingList.length; else empty">
     <div class="text-align-center pt-4 pb-3">
       <span class="title-text-font">Głosowania udostępnione dla ciebie:</span>
     </div>
@@ -53,23 +53,29 @@
         [class.demo-row-is-clicked]="clickedRows.has(row)"
         *matRowDef="let row; columns: displayedColumns;"
       ></tr>
-
     </table>
-
     <div *ngFor="let clickedRow of clickedRows">
       <div
         *ngIf="!clickedRow.voted && clickedRow.votingDTO.active">{{redirectToVote(clickedRow.votingDTO.votingId)}}</div>
     </div>
   </div>
-  <div class="text-align-center pt-3" *ngIf="votingList && votingList.length === 0">
-    <mat-card>
-      <div>
-        <img class="no-data-img" src="assets/NoData.png">
-      </div>
-      <span class="title-text-font">Nie udostępniono dla ciebie żadnych głosowań</span>
-    </mat-card>
+</ng-container>
+
+<ng-template #empty>
+  <div class="col-8 offset-2">
+    <div class="text-align-center pt-3">
+      <mat-card>
+        <div>
+          <img class="no-data-img" src="assets/NoData.png">
+        </div>
+        <span class="title-text-font">Nie udostępniono dla ciebie żadnych głosowań</span>
+      </mat-card>
+    </div>
   </div>
-</div>
-<footer *ngIf="votingList && votingList.length === 0" class="page-footer">
-  <a class="ml-3" href="https://storyset.com/data">Data illustrations by Storyset</a>
-</footer>
+</ng-template>
+
+<ng-template #loading>
+  <div class="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

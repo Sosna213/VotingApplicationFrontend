@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import {
-  VotingAdd,
-  VotingService,
-} from '../../../services/voting/voting.service';
+import { VotingService } from '../../../services/voting/voting.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { VotingAdd } from '../voting.types';
 
 @Component({
   selector: 'app-voting-create',
@@ -24,6 +22,7 @@ export class VotingCreateComponent {
         this.router.navigate(['/voting-search']);
       },
       error: (error) => {
+        console.error(error);
         this.errorSnackBarOpen(error.error.error);
       },
     });

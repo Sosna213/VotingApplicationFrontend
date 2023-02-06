@@ -1,34 +1,23 @@
-import {Injectable} from '@angular/core';
-import {DecodedToken} from "../token-decoder/token-decoder.service";
-import jwt_decode from "jwt-decode";
+import { Injectable } from '@angular/core';
+import { DecodedToken } from '../token-decoder/token-decoder.service';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalStorageService {
-
-  constructor() {
+  clear(): void {
+    localStorage.clear();
   }
 
-  setItem(key: string, value: any): void {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-
-  getItem(key: string): any {
+  getItem(key: string): string {
     try {
       const item = localStorage.getItem(key);
       return JSON.parse(<string>item);
     } catch (e) {
-      console.log(e)
+      console.error(e);
+      throw new Error(`Error getting item for this key: ${key}`);
     }
-  }
-
-  removeItem(key: string): any {
-    localStorage.removeItem(key);
-  }
-
-  clear(): void {
-    localStorage.clear();
   }
 
   isLoggedIn(): boolean {
@@ -46,8 +35,15 @@ export class LocalStorageService {
     return this.getItem('token') != null;
   }
 
+  removeItem(key: string) {
+    localStorage.removeItem(key);
+  }
+
+  setItem(key: string, value: string): void {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
   checkIfTokenExpired(token: DecodedToken): boolean {
     return new Date(token.exp * 1000) <= new Date();
   }
-
 }

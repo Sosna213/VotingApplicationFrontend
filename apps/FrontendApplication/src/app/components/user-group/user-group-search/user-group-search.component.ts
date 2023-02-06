@@ -1,35 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {UserGroupAddDialogComponent} from "./user-group-add-dialog/user-group-add-dialog.component";
+import { MatDialog } from '@angular/material/dialog';
+import { UserGroupAddDialogComponent } from './user-group-add-dialog/user-group-add-dialog.component';
+import { UserGroupService } from '../../../services/user-group/user-group.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   UserGroupAdd,
   UserGroupEdit,
   UserGroupInfo,
-  UserGroupService
-} from "../../../services/user-group/user-group.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
-
+} from '../user-group.types';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-user-group-search',
   templateUrl: './user-group-search.component.html',
-  styleUrls: ['./user-group-search.component.css']
+  styleUrls: ['./user-group-search.component.css'],
 })
 export class UserGroupSearchComponent implements OnInit {
-
   displayedColumns: string[] = ['id', 'userGroupName', 'operations'];
-  userGroupInfos!: UserGroupInfo[];
+  userGroupInfos$!: Observable<UserGroupInfo[]>;
   userGroupToAdd!: UserGroupAdd;
 
+  constructor(
+    private userGroupService: UserGroupService,
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar
+  ) {}
 
-  constructor(private userGroupService: UserGroupService, public dialog: MatDialog, public snackBar: MatSnackBar) { }
+  deleteUserGroup(userGroupId: number) {
+    this.userGroupService.deleteUserGroupById(userGroupId).subscribe({
+      next: () => {
+        location.reload();
+      },
+      error: (error) => {
+        this.errorSnackBarOpen(error.error.error);
+      },
+    });
+  }
 
   ngOnInit(): void {
-    this.userGroupService.getUserGroupsForUser().subscribe(data => {
-      this.userGroupInfos = data;
-    }, error => {
-      console.log(error);
-    });
+    this.userGroupInfos$ = this.userGroupService.getUserGroupsForUser();
   }
 
   openCreateUserGroupDialog(): void {
@@ -37,60 +46,52 @@ export class UserGroupSearchComponent implements OnInit {
       width: '700px',
       data: {
         usernames: this.userGroupToAdd,
-        mode: "create"
-      }
+        mode: 'create',
+      },
     });
 
-
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       this.userGroupToAdd = result;
-      this.userGroupService.addUserGroup(this.userGroupToAdd).subscribe(result=>{
-        location.reload();
-      }, error => {
-        console.log(error);
-      })
+      this.userGroupService.addUserGroup(this.userGroupToAdd).subscribe({
+        next: () => {
+          location.reload();
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
     });
   }
 
-  openEditUserGroupDialog(userGroupId: number): void {
-    let usernames;
-    let userGroupName;
-    this.userGroupInfos.filter(userGroup => userGroup.userGroupId === userGroupId).forEach(userGroup => {
-      usernames = userGroup.usernames;
-      userGroupName = userGroup.userGroupName;
-    })
+  openEditUserGroupDialog(userGroup: UserGroupInfo): void {
     const dialogRef = this.dialog.open(UserGroupAddDialogComponent, {
       width: '700px',
       data: {
-        userGroupName: userGroupName,
-        usernames: usernames,
-        mode: "edit"
-      }
+        userGroupName: userGroup.userGroupName,
+        usernames: userGroup.usernames,
+        mode: 'edit',
+      },
     });
 
-
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       const userGroupEdit: UserGroupEdit = <UserGroupEdit>{};
       userGroupEdit.userGroupAddDTO = result;
-      userGroupEdit.userGroupId = userGroupId;
-      this.userGroupService.editUserGroup(userGroupEdit).subscribe(result=>{
-        location.reload();
-      }, error => {
-        this.errorSnackBarOpen(error.error.error)
-      })
+      userGroupEdit.userGroupId = userGroup.userGroupId;
+      this.userGroupService.editUserGroup(userGroupEdit).subscribe({
+        next: () => {
+          location.reload();
+        },
+        error: (error) => {
+          this.errorSnackBarOpen(error.error.error);
+        },
+      });
     });
   }
-  deleteUserGroup(userGroupId: number) {
-    this.userGroupService.deleteUserGroupById(userGroupId).subscribe(response => {
-      location.reload();
-    }, error => {
-      this.errorSnackBarOpen(error.error.error)
-    })
-  }
+
   private errorSnackBarOpen(message: string) {
-    this.snackBar.open(message, "Zamknij", {
+    this.snackBar.open(message, 'Zamknij', {
       duration: 3 * 1000,
-      horizontalPosition: "right"
+      horizontalPosition: 'right',
     });
   }
 }

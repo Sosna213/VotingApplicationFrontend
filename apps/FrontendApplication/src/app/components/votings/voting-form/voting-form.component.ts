@@ -7,22 +7,24 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  FormGroup,
   UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  Answer,
-  VotingAdd,
-  VotingInfo,
-  VotingService,
-} from '../../../services/voting/voting.service';
+import { VotingService } from '../../../services/voting/voting.service';
 import { ActivatedRoute } from '@angular/router';
 import { TokenDecoderService } from '../../../services/token-decoder/token-decoder.service';
 import { UserService } from '../../../services/user/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  Answer,
+  VotingAdd,
+  VotingInfo,
+  VotingToSend,
+} from '../voting.types';
 
 @Component({
   selector: 'app-voting-form',
@@ -30,7 +32,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./voting-form.component.css'],
 })
 export class VotingFormComponent implements OnInit {
-  @ViewChild('picker') picker: any;
+  @ViewChild('picker') picker: unknown;
 
   @Output() votingToAdd = new EventEmitter<VotingAdd>();
   @Output() votingToEdit = new EventEmitter<VotingInfo>();
@@ -38,15 +40,7 @@ export class VotingFormComponent implements OnInit {
   userId!: number;
   tribe = 'add';
 
-  votingForm = this.formBuilder.group({
-    votingName: [null, Validators.required],
-    question: [null, Validators.required],
-    limitedInTime: false,
-    restricted: false,
-    explicit: false,
-    endTime: new UntypedFormControl(null),
-    answers: this.formBuilder.array([]),
-  });
+  votingForm = this.initForm();
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -66,20 +60,7 @@ export class VotingFormComponent implements OnInit {
       const votingIdNumber = votingId ? +votingId : NaN;
       this.votingService
         .getVotingWithAnswers(votingIdNumber)
-        .subscribe((data) => {
-          this.votingData = data;
-          this.votingForm.controls['votingName'].setValue(data.votingName);
-          this.votingForm.controls['restricted']?.setValue(data.restricted);
-          const date = new Date(data.endDate);
-          this.votingForm.controls['endDate']?.setValue(date);
-          this.votingForm.controls['limitedInTime'].setValue(true);
-          this.votingForm.controls['votingName'].setValue(data.votingName);
-          this.votingForm.controls['explicit'].setValue(data.explicit);
-          this.votingForm.controls['question'].setValue(data.question);
-          data.answers.forEach((answer) => {
-            this.answers().push(this.newAnswerWithData(answer.answer));
-          });
-        });
+        .subscribe({ next: (data) => this.setVotingData(data) });
     } else {
       this.addAnswer();
       this.tribe = 'add';
@@ -87,9 +68,10 @@ export class VotingFormComponent implements OnInit {
     this.userService.getActiveUserId().subscribe((res) => {
       this.userId = res;
     });
+    this.watchIsExplicitToSetRestriction();
   }
 
-  answers(): UntypedFormArray {
+  getAnswers(): UntypedFormArray {
     return this.votingForm.get('answers') as UntypedFormArray;
   }
 
@@ -101,7 +83,7 @@ export class VotingFormComponent implements OnInit {
   }
 
   addAnswer() {
-    this.answers().push(this.newAnswer());
+    this.getAnswers().push(this.newAnswer());
   }
 
   newAnswerWithData(answer: string): UntypedFormGroup {
@@ -111,36 +93,16 @@ export class VotingFormComponent implements OnInit {
   }
 
   removeAnswer(index: number) {
-    this.answers().removeAt(index);
+    this.getAnswers().removeAt(index);
   }
 
   onSubmit() {
     if (this.votingForm.valid) {
+      const voting: VotingToSend = this.getDataFromForm();
       if (this.tribe === 'add') {
-        const answers: string[] = this.votingForm.controls['answers'].value;
-        const votingToSave: VotingAdd = {
-          userId: this.userId,
-          votingName: this.votingForm.controls['votingName'].value,
-          restricted: this.votingForm.controls['restricted'].value,
-          explicit: this.votingForm.controls['explicit'].value,
-          endDate: this.votingForm.get('endTime')?.value?.toDate(),
-          question: this.votingForm.controls['question'].value,
-          answers: answers,
-        };
-        this.votingToAdd.emit(votingToSave);
+        this.addVoting(voting);
       } else if (this.tribe === 'edit') {
-        const answers: Answer[] = this.votingForm.controls['answers'].value;
-        const votingToEdit: VotingInfo = {
-          votingId: this.votingData.votingId,
-          votingName: this.votingForm.controls['votingName'].value,
-          restricted: this.votingForm.controls['restricted'].value,
-          explicit: this.votingForm.controls['explicit'].value,
-          endDate: this.votingForm.get('endTime')?.value?.toDate(),
-          active: true,
-          question: this.votingForm.controls['question'].value,
-          answers: answers,
-        };
-        this.votingToEdit.emit(votingToEdit);
+        this.editVoting(voting);
       }
     } else {
       this.errorSnackBarOpen('Dane są nie prawidłowe');
@@ -154,11 +116,72 @@ export class VotingFormComponent implements OnInit {
     });
   }
 
-  votingExplicitChange() {
-    if (this.votingForm.controls['explicit'].value === true) {
-      this.votingForm.controls['restricted'].setValue(true);
-      return true;
-    }
-    return false;
+  private setVotingData(data: VotingInfo) {
+    this.votingData = data;
+    this.votingForm.controls['votingName'].setValue(data.votingName);
+    this.votingForm.controls['restricted']?.setValue(data.restricted);
+    const date = new Date(data.endDate);
+    this.votingForm.controls['endDate']?.setValue(date);
+    this.votingForm.controls['limitedInTime'].setValue(true);
+    this.votingForm.controls['votingName'].setValue(data.votingName);
+    this.votingForm.controls['explicit'].setValue(data.explicit);
+    this.votingForm.controls['question'].setValue(data.question);
+    data.answers.forEach((answer) => {
+      this.getAnswers().push(this.newAnswerWithData(answer.answer));
+    });
+  }
+
+  private getDataFromForm(): VotingToSend {
+    return {
+      votingName: this.votingForm.controls['votingName'].value,
+      restricted: this.votingForm.controls['restricted'].value,
+      explicit: this.votingForm.controls['explicit'].value,
+      endDate: this.votingForm.get('endTime')?.value?.toDate(),
+      question: this.votingForm.controls['question'].value,
+    };
+  }
+
+  private addVoting(voting: VotingToSend) {
+    const answers: string[] = this.votingForm.controls['answers'].value;
+    const votingToSend: VotingAdd = {
+      ...voting,
+      userId: this.userId,
+      answers: answers,
+    };
+    this.votingToAdd.emit(votingToSend);
+  }
+
+  private editVoting(voting: VotingToSend) {
+    const answers: Answer[] = this.votingForm.controls['answers'].value;
+    const votingToSend: VotingInfo = {
+      ...voting,
+      votingId: this.votingData.votingId,
+      answers: answers,
+      active: true,
+    };
+    this.votingToEdit.emit(votingToSend);
+  }
+
+  private initForm(): FormGroup {
+    return this.formBuilder.group({
+      votingName: [null, Validators.required],
+      question: [null, Validators.required],
+      limitedInTime: false,
+      restricted: false,
+      explicit: false,
+      endTime: new UntypedFormControl(null),
+      answers: this.formBuilder.array([]),
+    });
+  }
+
+  private watchIsExplicitToSetRestriction() {
+    this.votingForm.controls['explicit'].valueChanges.subscribe((value) => {
+      if (value) {
+        this.votingForm.controls['restricted'].setValue(true);
+        this.votingForm.controls['restricted'].disable();
+      } else {
+        this.votingForm.controls['restricted'].enable();
+      }
+    });
   }
 }

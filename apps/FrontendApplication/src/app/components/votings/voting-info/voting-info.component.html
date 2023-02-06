@@ -1,4 +1,4 @@
-<div class="col-8 offset-2 pt-3">
+<div class="col-8 offset-2 pt-3" *ngIf="votingInfo$ | async as votingInfo;else loading">
   <mat-card>
     <mat-list>
       <mat-list-item>
@@ -40,13 +40,13 @@
       </div>
     </mat-list>
     <div class="text-align-right">
-      <button class="button-margin" mat-mini-fab color="accent" (click)="openShareVotingDialog()">
+      <button class="button-margin" mat-mini-fab color="accent" (click)="openShareVotingDialog(votingInfo)">
         <mat-icon class="white">share</mat-icon>
       </button>
       <button [disabled]="votingInfo.active" class="button-margin" mat-flat-button color="primary"
-              (click)="gotToVotingEditPage()">Edytuj
+              (click)="gotToVotingEditPage(votingInfo)">Edytuj
       </button>
-      <button *ngIf="votingInfo.active" class="button-margin" mat-flat-button color="primary" (click)="deactivate()">
+      <button *ngIf="votingInfo.active" class="button-margin" mat-flat-button color="primary" (click)="deactivate(votingInfo)">
         Deaktywuj
       </button>
       <button mat-flat-button color="warn" (click)="deleteVoting(votingInfo.votingId)">Usuń</button>
@@ -59,3 +59,9 @@
                         [gradient]="true">
   </ngx-charts-pie-chart>
 </div>
+
+<ng-template #loading>
+  <div class="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
