@@ -1,5 +1,13 @@
 {
   "singleQuote": true,
+  "overrides": [
+    {
+      "files": ["**/*.css", "**/*.scss", "**/*.html"],
+      "options": {
+        "singleQuote": false,
+        "bracketSameLine": true
+      }
+    }
+  ],
   "bracketSpacing": true
-
 }
