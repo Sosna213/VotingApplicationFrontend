@@ -1,0 +1,36 @@
+<ng-container *ngIf="votingInfo$ | async as votingInfo">
+  <div class="col-8 offset-2 pt-3">
+    <mat-card class='pl-3 pr-3'>
+      <mat-list>
+        <mat-list-item>
+          <div class="row full-width">
+            <div class="col-4"><strong class="pr-3">Nazwa: </strong>{{votingInfo.votingName}}</div>
+            <div class="col-4"><strong class="pr-3">Tylko dla zalogowanych: </strong>
+              <mat-checkbox [ngModel]="votingInfo.restricted" [disabled]="true"></mat-checkbox>
+            </div>
+            <div class="col-4">
+              <strong *ngIf="votingInfo.endDate" class="pr-3">Data zakończenia: </strong>{{votingInfo.endDate}}
+            </div>
+          </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><strong class="pr-3">Pytanie: </strong>{{votingInfo.question}}</mat-list-item>
+        <mat-list-item><strong>Odpowiedzi: </strong></mat-list-item>
+        <div class="row" *ngFor="let answer of votingInfo.answers let i=index">
+          <mat-divider></mat-divider>
+          <div class="col-11">
+            <mat-list-item><span class="pr-3">{{i + 1}}.</span>{{answer.answer}}</mat-list-item>
+          </div>
+          <div class="col-1 text-align-center">
+            <mat-radio-group [(ngModel)]="answerVotedId">
+              <mat-radio-button class="mt-3" value="{{answer.answerId}}"></mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </mat-list>
+      <div class="text-align-right">
+        <button class="button-margin mb-3" mat-flat-button color="primary" (click)="vote(votingInfo.votingId)">Zagłosuj</button>
+      </div>
+    </mat-card>
+  </div>
+</ng-container>

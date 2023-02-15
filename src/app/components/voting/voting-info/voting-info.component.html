@@ -1,0 +1,81 @@
+<div class='col-8 offset-2 pt-3' *ngIf='votingInfo$ | async as votingInfo;else loading'>
+  <mat-card class='pl-3 pr-3'>
+    <mat-list>
+      <mat-list-item>
+        <div class='row full-width'>
+          <div class='col-3 align-self-center'><strong class='pr-3'>Nazwa: </strong>{{votingInfo.votingName}}</div>
+          <div class='col-3'><strong class='pr-3'>Tylko dla zalogowanych: </strong>
+            <mat-checkbox [ngModel]='votingInfo.restricted' [disabled]='true'></mat-checkbox>
+          </div>
+          <div class='col-2'><strong class='pr-3'>Aktywna: </strong>
+            <mat-checkbox [ngModel]='votingInfo.active' [disabled]='true'></mat-checkbox>
+          </div>
+          <div class='col-4 align-self-center'>
+            <strong *ngIf='votingInfo.endDate' class='pr-3'>Data zakończenia: </strong>{{votingInfo.endDate}}
+          </div>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item><strong class='pr-3'>Pytanie: </strong>{{votingInfo.question}}</mat-list-item>
+      <mat-list-item>
+        <div class='row'>
+          <div class='col-1'></div>
+          <div class='pr-3 col-2'><strong>Odpowiedzi: </strong></div>
+          <div *ngIf='resultVisible' class='pr-3 col-2'><strong>Liczba odpowiedzi:</strong></div>
+          <div *ngIf='resultVisible' class='pr-3 col-2'><strong>Udział procentowy:</strong></div>
+          <div class='pr-3 col-5'
+               *ngIf='votingInfo.explicit && resultVisible'><strong>Użytkownicy który zagłosowali:</strong></div>
+        </div>
+      </mat-list-item>
+      <div *ngFor='let answer of votingInfo.answers let i=index'>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <div class='row'>
+          <div class='col-1'>{{i + 1}}.</div>
+          <div class='pr-3 col-2'>{{answer.answer}}</div>
+          <div *ngIf='resultVisible' class='pr-3 col-2'>{{getNumberOfResultForAnswer(answer.answerId).value}}</div>
+          <div *ngIf='resultVisible'
+               class='pr-3 col-2'>{{getNumberOfResultForAnswer(answer.answerId).value / totalOfAnswers * 100 | number: '1.0-2'}}
+            %
+          </div>
+          <div class='pr-3 col-5'
+               *ngIf='votingInfo.explicit && resultVisible'>{{getNumberOfResultForAnswer(answer.answerId).usernames}}</div>
+          </div>
+        </mat-list-item>
+      </div>
+    </mat-list>
+    <div class='text-align-right mb-3'>
+      <button class='button-margin color-white' mat-flat-button color='accent' (click)='openShareVotingDialog(votingInfo)'>
+        Udostępnij
+      </button>
+      <button [disabled]='votingInfo.active' class='button-margin' mat-flat-button color='primary'
+              (click)='gotToVotingEditPage(votingInfo)'>Edytuj
+      </button>
+      <button *ngIf='votingInfo.active' class='button-margin' mat-flat-button color='primary'
+              (click)='deactivate(votingInfo)'>
+        Deaktywuj
+      </button>
+      <button mat-flat-button color='warn' (click)='deleteVoting(votingInfo.votingId)'>Usuń</button>
+    </div>
+    <div class='text-align-right'>
+    <span>
+    <button [disabled]='totalOfAnswers === 0' mat-flat-button color='primary' (click)='showResult()'>Pokaż wyniki
+    </button>
+    </span>
+    </div>
+
+    <br>
+    <div class='align-self-center'>
+      <ngx-charts-pie-chart class='col-1' [view]='[700, 400]' *ngIf='resultVisible' [results]='votingResult'
+                            [legend]='true'
+                            [gradient]='true'>
+      </ngx-charts-pie-chart>
+    </div>
+  </mat-card>
+</div>
+
+<ng-template #loading>
+  <div class='loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
