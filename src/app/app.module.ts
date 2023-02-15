@@ -41,8 +41,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { TokenInterceptorService } from './services/token-interceptor/token-interceptor.service';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {VotingModule} from "./voting/voting.module";
-import {UserManagementModule} from "./user-management/user-management.module";
+import { UserManagementModule } from './components/user-management/user-management.module';
+import { VotingModule } from './components/voting/voting.module';
 
 @NgModule({
   declarations: [

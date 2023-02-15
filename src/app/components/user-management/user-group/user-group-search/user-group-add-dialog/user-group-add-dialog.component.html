@@ -1,0 +1,42 @@
+<div mat-dialog-content>
+  <p>Utwórz grupę użytkowników:</p>
+  <form [formGroup]="userGroupForm" (ngSubmit)="onSubmit()">
+    <mat-card class='pl-3 pr-3'>
+      <mat-card-header class='mb-2'>
+        <mat-card-title>Dodaj grupe</mat-card-title>
+      </mat-card-header>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Nazwa grupy:</mat-label>
+        <input matInput type="text" placeholder="Nazwa" formControlName="userGroupName">
+      </mat-form-field>
+
+      <mat-form-field class="example-chip-list col-12" appearance="fill">
+        <mat-label>Dodawanie użytkowników</mat-label>
+          <mat-chip-grid #chipGrid aria-label="Fruit selection">
+            <mat-chip-row *ngFor="let user of users" (removed)="remove(user)">
+              {{user}}
+              <button matChipRemove [attr.aria-label]="'remove ' + user">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          </mat-chip-grid>
+          <input
+            placeholder="Nazwa użytkownika..."
+            #userInput
+            [formControl]="userCtrl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipGrid"
+            (matChipInputTokenEnd)="add($event)">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+            {{user}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="text-align-right pb-3">
+        <button mat-button color='warn' type='button' (click)="onNoClick()">Anuluj</button>
+        <button mat-button color='primary' (click)="onSubmit()">Dodaj</button>
+      </div>
+    </mat-card>
+  </form>
+</div>
