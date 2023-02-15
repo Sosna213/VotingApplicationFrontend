@@ -6,13 +6,13 @@
         <mat-card-title class="title-text-font" *ngIf="tribe === 'add'">Dodaj głosowanie</mat-card-title>
       </mat-card-header>
       <div class="row">
-        <mat-checkbox style="width: 20%" class="pb-3" formControlName="restricted">
+        <mat-checkbox class="pb-3 w-20" formControlName="restricted">
           Ograniczone do zaproszonch
         </mat-checkbox>
-        <mat-checkbox style="width: 10%" class="pb-3" formControlName="explicit">Jawne</mat-checkbox>
-        <mat-checkbox style="width: 20%" class="pb-3" name="limitedInTime" formControlName="limitedInTime">Ograniczone czasowo:
+        <mat-checkbox class="pb-3 w-10" formControlName="explicit">Jawne</mat-checkbox>
+        <mat-checkbox class="pb-3 w-20" name="limitedInTime" formControlName="limitedInTime">Ograniczone czasowo:
         </mat-checkbox>
-        <mat-form-field style="width: 50%" *ngIf="votingForm.controls['limitedInTime'].value" appearance="fill">
+        <mat-form-field class='w-50' *ngIf="votingForm.controls['limitedInTime'].value" appearance="fill">
           <mat-label>Data zakończenia:</mat-label>
           <input matInput [ngxMatDatetimePicker]="picker" placeholder="Wybierz datę zakończenia"
                  formControlName="endTime">
