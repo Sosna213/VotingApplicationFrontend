@@ -20,7 +20,7 @@ export class TokenInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const accessToken = this.localStorageService.getItem('token');
 
-    return next.handle(TokenInterceptorService.addAuthorizationHeader(req, accessToken)).pipe(
+    return next.handle(this.addAuthorizationHeader(req, accessToken)).pipe(
       catchError(err => {
         if (err instanceof HttpErrorResponse && err.status === 401) {
           const refreshToken = this.localStorageService.getItem('refreshToken');
@@ -46,7 +46,7 @@ export class TokenInterceptorService implements HttpInterceptor {
         switchMap((res) => {
           this.refreshingInProgress = false;
           this.accessTokenSubject.next(res.accessToken);
-          return next.handle(TokenInterceptorService.addAuthorizationHeader(request, res.accessToken));
+          return next.handle(this.addAuthorizationHeader(request, res.accessToken));
         })
       );
     } else {
@@ -54,7 +54,7 @@ export class TokenInterceptorService implements HttpInterceptor {
         filter(token => token !== null),
         take(1),
         switchMap(token => {
-          return next.handle(TokenInterceptorService.addAuthorizationHeader(request, token));
+          return next.handle(this.addAuthorizationHeader(request, token));
         }));
     }
   }
@@ -66,13 +66,15 @@ export class TokenInterceptorService implements HttpInterceptor {
     return throwError(err);
   }
 
-  private static addAuthorizationHeader(request: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
-    if (token && request.url !='token-refresh' && request.url !='/login') {
+
+  private addAuthorizationHeader(request: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
+    if (token && request.url !='/token-refresh') {
       return request.clone({setHeaders: {Authorization: `Bearer ${token}`}});
     }
-    if (request.url === 'token-refresh') {
-      return request.clone();
+    const refreshToken = this.localStorageService.getItem('refreshToken');
+    if (refreshToken && request.url === '/token-refresh') {
+      return request.clone({setHeaders: {Authorization: `Bearer ${refreshToken}`}});
     }
     return request;
-  }
+}
 }
