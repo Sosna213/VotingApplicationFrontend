@@ -1,27 +1,53 @@
-# FrontendApplication
+# Voting Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.2.
+This is my voting application project, it was originally created for my Engineering work, this is frontend part of that application.
+I have learned a lot during creation of this project. After first version of application I learned about frontend programming, and I decided to use my knowledge to fix this app.
+## Description
+The project is a voting application that allows you to create votes, share them and check the results you have received.
+We can create user and user can create voting and share it to other users and non-user players using link.
+User can share voting to single user or can create user groups and share voting to all users in group.
+Voting can be time limited, another option is that voting can be open or hidden,
+when voting is open user after voting can see results when result is hidden only user that created voting can see result.
+## Screenshots
 
-## Development server
+![img.png](./readme-images/img.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+![img_1.png](./readme-images/img_1.png)
 
-## Code scaffolding
+![img_2.png](./readme-images/img_2.png)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Technologies
+* Angular
+* RxJS
+* Angular materials
+* Bootstrap
+* Ngx-Charts
 
-## Build
+## How to run application
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Running app in docker compose
 
-## Running unit tests
+The easiest way to run application is to use docker-compose.
+* Open folder docker-compose in terminal
+* Run command:
+```
+$ docker-compose up -d --build
+```
+* Application will start and frontend application will be available on http://localhost:4200
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Running app using from project
 
-## Running end-to-end tests
+#### Running backend using docker-compose
+* Open folder docker-compose in terminal
+* Run commands:
+```
+$ docker-compose up -d --build db
+$ docker-compose up -d --build backend-app
+```
+#### Running frontend using docker-compose
+* Open project folder in terminal
+* Run command:```npm install```
+* When installing ends run ```npm start```
+* Application will start on port ```4200```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+#### Backend application can be found on my GitHub: https://github.com/Sosna213/Voting-application
