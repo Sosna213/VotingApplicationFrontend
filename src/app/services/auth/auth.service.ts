@@ -7,7 +7,7 @@ import { DecodedToken } from '../token-decoder/token-decoder.service';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
 
-interface LoginResponse {
+export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
 }
