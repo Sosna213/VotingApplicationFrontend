@@ -35,7 +35,7 @@ export class LocalStorageService {
     return this.getItem('token') != null;
   }
 
-  removeItem(key: string) {
+  removeItem(key: string): void {
     localStorage.removeItem(key);
   }
 
