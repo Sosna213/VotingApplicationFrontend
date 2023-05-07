@@ -6,33 +6,29 @@ import jwt_decode from 'jwt-decode';
   providedIn: 'root',
 })
 export class LocalStorageService {
+  jwt_decode = jwt_decode
   clear(): void {
     localStorage.clear();
   }
 
-  getItem(key: string): string {
-    try {
-      const item = localStorage.getItem(key);
-      return JSON.parse(<string>item);
-    } catch (e) {
-      console.error(e);
-      throw new Error(`Error getting item for this key: ${key}`);
-    }
+  getItem(key: string): string | null {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : null;
   }
 
   isLoggedIn(): boolean {
-    if (this.getItem('token') != null) {
-      const token = this.getItem('token');
-      const decoded: DecodedToken = jwt_decode(token);
+    const token = this.getItem('token');
+    const refreshToken = this.getItem('refreshToken');
+    if (token !== null && refreshToken !== null) {
+      const decoded: DecodedToken = this.jwt_decode(token);
       if (this.checkIfTokenExpired(decoded)) {
-        const refreshToken = this.getItem('refreshToken');
-        const refreshDecoded: DecodedToken = jwt_decode(refreshToken);
+        const refreshDecoded: DecodedToken = this.jwt_decode(refreshToken);
         if (this.checkIfTokenExpired(refreshDecoded)) {
           return false;
         }
       }
     }
-    return this.getItem('token') != null;
+    return false;
   }
 
   removeItem(key: string): void {

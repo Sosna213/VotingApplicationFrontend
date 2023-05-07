@@ -17,6 +17,7 @@ export interface LoginResponse {
 })
 export class AuthService {
   tokenSubscription?: Subscription;
+  jwtDecode = jwt_decode;
 
   constructor(
     private http: HttpClient,
@@ -59,18 +60,22 @@ export class AuthService {
     this.localStorageService.setItem(key, token);
   }
 
-  private runCheckTokenExpired() {
+  private runCheckTokenExpired(): void {
     const source = interval(2*60*1000);
     this.tokenSubscription = source.subscribe(() => this.checkIsLoggedIn());
   }
 
-  private checkIsLoggedIn() {
+  private checkIsLoggedIn(): void {
     const refreshToken = this.localStorageService.getItem('refreshToken');
-    const refreshDecoded: DecodedToken = jwt_decode(refreshToken);
-
-    if (this.localStorageService.checkIfTokenExpired(refreshDecoded)) {
-      console.log('Token expired');
+    if (refreshToken === null) {
+      console.warn('No refresh token');
       this.logout();
+    } else {
+      const refreshDecoded: DecodedToken = this.jwtDecode(refreshToken);
+      if (this.localStorageService.checkIfTokenExpired(refreshDecoded)) {
+        console.warn('Token expired');
+        this.logout();
+      }
     }
   }
 }

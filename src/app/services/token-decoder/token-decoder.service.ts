@@ -13,12 +13,15 @@ export interface DecodedToken {
 })
 export class TokenDecoderService {
 
+  jwtDecode = jwt_decode;
+
   constructor(private localStorageService: LocalStorageService) {
   }
 
   getUsernameFromToken(): string {
     const token = this.localStorageService.getItem('token');
-    const decoded: DecodedToken = jwt_decode(token);
+    if(token === null) return '';
+    const decoded: DecodedToken = this.jwtDecode(token);
     return decoded.sub;
   }
 }
