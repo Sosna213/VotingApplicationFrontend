@@ -26,7 +26,8 @@ export class LocalStorageService {
         if (this.checkIfTokenExpired(refreshDecoded)) {
           return false;
         }
-      }
+      } else return true;
+
     }
     return false;
   }
